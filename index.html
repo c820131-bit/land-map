@@ -5,105 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>투자지도 PRO</title>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7e60f6a42602355b925c66ea6db3bd87&libraries=clusterer"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Pretendard', -apple-system, sans-serif; overflow: hidden; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+        
         #map { width: 100%; height: 100vh; }
         
         .sidebar {
-            position: absolute; top: 0; left: 0; width: 360px; height: 100vh;
-            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
-            backdrop-filter: blur(20px); box-shadow: 4px 0 30px rgba(0,0,0,0.08);
-            z-index: 1000; display: flex; flex-direction: column;
+            position: absolute; top: 20px; left: 20px; width: 340px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 25px; z-index: 1000;
         }
         
-        .header { padding: 30px 25px 20px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .header h1 {
-            font-size: 28px; font-weight: 700;
+        .sidebar h1 {
+            font-size: 24px; margin-bottom: 5px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-        .header p { font-size: 13px; color: #666; }
-        
-        .stats-grid {
-            padding: 20px 25px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
         }
         
-        .stat-card {
-            background: white; padding: 18px; border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s;
-        }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-        .stat-card.auction { border-left: 4px solid #667eea; }
-        .stat-card.public { border-left: 4px solid #9b59b6; }
-        .stat-card.land { border-left: 4px solid #2ecc71; }
-        .stat-card.polygon { border-left: 4px solid #e74c3c; }
+        .sidebar p { font-size: 13px; color: #666; margin-bottom: 20px; }
         
-        .stat-card .label { font-size: 12px; color: #999; margin-bottom: 6px; font-weight: 500; }
-        .stat-card .value { font-size: 26px; font-weight: 700; color: #333; }
+        .stats {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+            margin-bottom: 20px;
+        }
         
-        .filter-section { padding: 0 25px; }
-        .filter-section h3 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 15px; }
+        .stat-box {
+            background: white; padding: 15px; border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
         
-        .filter-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 16px; background: white; border-radius: 12px;
-            margin-bottom: 10px; cursor: pointer; transition: all 0.2s;
-        }
-        .filter-item:hover { background: #f8f9fa; }
-        .filter-item-left { display: flex; align-items: center; gap: 12px; }
+        .stat-box.blue { border-left: 3px solid #667eea; }
+        .stat-box.purple { border-left: 3px solid #9b59b6; }
+        .stat-box.green { border-left: 3px solid #2ecc71; }
+        .stat-box.red { border-left: 3px solid #e74c3c; }
         
-        .filter-icon {
-            width: 36px; height: 36px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center; font-size: 18px;
-        }
-        .filter-icon.auction { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .filter-icon.public { background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); }
-        .filter-icon.land { background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); }
+        .stat-label { font-size: 11px; color: #999; margin-bottom: 5px; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #333; }
         
-        .filter-label { font-size: 14px; font-weight: 500; color: #333; }
-        
-        .toggle-switch {
-            position: relative; width: 48px; height: 26px;
-            background: #e0e0e0; border-radius: 13px; transition: background 0.3s;
-        }
-        .toggle-switch.active { background: #667eea; }
-        .toggle-switch::after {
-            content: ''; position: absolute; top: 3px; left: 3px;
-            width: 20px; height: 20px; background: white; border-radius: 50%;
-            transition: transform 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .toggle-switch.active::after { transform: translateX(22px); }
-        
-        .info-window { padding: 16px; min-width: 280px; }
-        .info-window .badge {
-            display: inline-block; padding: 4px 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; border-radius: 20px; font-size: 11px;
-            font-weight: 600; margin-bottom: 10px;
-        }
-        .info-window h3 { font-size: 16px; margin-bottom: 12px; color: #333; font-weight: 600; }
-        .info-window .detail-row {
-            display: flex; align-items: center; margin: 8px 0; font-size: 13px; color: #666;
-        }
-        .info-window .detail-row .icon { margin-right: 8px; }
-        .info-window .price-box {
-            margin-top: 12px; padding: 12px;
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
-            border-radius: 10px; border-left: 3px solid #667eea;
-        }
-        .info-window .price-label { font-size: 11px; color: #999; margin-bottom: 4px; }
-        .info-window .price-value { font-size: 20px; font-weight: 700; color: #667eea; }
-        .info-window .polygon-btn {
-            margin-top: 12px; width: 100%; padding: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; border: none; border-radius: 8px;
-            font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s;
-        }
-        .info-window .polygon-btn:hover {
-            transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+        .status {
+            padding: 12px; background: #f0f4ff; border-radius: 8px;
+            font-size: 13px; color: #667eea; text-align: center;
         }
     </style>
 </head>
@@ -111,206 +54,157 @@
     <div id="map"></div>
     
     <div class="sidebar">
-        <div class="header">
-            <h1>투자지도 PRO</h1>
-            <p>스마트한 부동산 투자 플랫폼</p>
-        </div>
+        <h1>🗺️ 투자지도 PRO</h1>
+        <p>스마트한 부동산 투자 플랫폼</p>
         
-        <div class="stats-grid">
-            <div class="stat-card auction">
-                <div class="label">경매</div>
-                <div class="value" id="auction-count">0</div>
+        <div class="stats">
+            <div class="stat-box blue">
+                <div class="stat-label">경매</div>
+                <div class="stat-value" id="auction">0</div>
             </div>
-            <div class="stat-card public">
-                <div class="label">공매</div>
-                <div class="value" id="public-count">0</div>
+            <div class="stat-box purple">
+                <div class="stat-label">공매</div>
+                <div class="stat-value" id="public">0</div>
             </div>
-            <div class="stat-card land">
-                <div class="label">보상토지</div>
-                <div class="value" id="land-count">0</div>
+            <div class="stat-box green">
+                <div class="stat-label">보상토지</div>
+                <div class="stat-value" id="land">0</div>
             </div>
-            <div class="stat-card polygon">
-                <div class="label">폴리곤</div>
-                <div class="value" id="polygon-count">0</div>
+            <div class="stat-box red">
+                <div class="stat-label">폴리곤</div>
+                <div class="stat-value" id="polygon">0</div>
             </div>
         </div>
         
-        <div class="filter-section">
-            <h3>🎯 레이어 필터</h3>
-            
-            <div class="filter-item" onclick="toggleFilter('auction')">
-                <div class="filter-item-left">
-                    <div class="filter-icon auction">🔵</div>
-                    <div class="filter-label">경매 물건</div>
-                </div>
-                <div class="toggle-switch active" id="toggle-auction"></div>
-            </div>
-            
-            <div class="filter-item" onclick="toggleFilter('public')">
-                <div class="filter-item-left">
-                    <div class="filter-icon public">🟣</div>
-                    <div class="filter-label">공매 물건</div>
-                </div>
-                <div class="toggle-switch active" id="toggle-public"></div>
-            </div>
-            
-            <div class="filter-item" onclick="toggleFilter('land')">
-                <div class="filter-item-left">
-                    <div class="filter-icon land">🟢</div>
-                    <div class="filter-label">보상토지</div>
-                </div>
-                <div class="toggle-switch active" id="toggle-land"></div>
-            </div>
-        </div>
+        <div class="status" id="status">지도 로딩 중...</div>
     </div>
 
     <script>
-        const VWORLD_API_KEY = 'D0F229B6-968D-3F5F-B4EB-E509962F466C';
+        console.log('🚀 투자지도 시작!');
         
         let map, clusterer;
-        let markers = { auction: [], public: [], land: [] };
+        let markers = [];
         let polygons = [];
-        let currentInfowindow = null;
-        let filterState = { auction: true, public: true, land: true };
         
-        // 지도 초기화
+        // 1. 지도 생성
         function initMap() {
-            const container = document.getElementById('map');
-            const options = {
-                center: new kakao.maps.LatLng(37.2636, 127.0286),
-                level: 9
-            };
+            console.log('📍 지도 초기화 중...');
             
-            map = new kakao.maps.Map(container, options);
-            
-            clusterer = new kakao.maps.MarkerClusterer({
-                map: map,
-                averageCenter: true,
-                minLevel: 6,
-                disableClickZoom: true,
-                styles: [{
-                    width: '50px', height: '50px',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    borderRadius: '25px', color: '#fff',
-                    textAlign: 'center', lineHeight: '50px',
-                    fontSize: '14px', fontWeight: 'bold',
-                    boxShadow: '0 4px 12px rgba(102,126,234,0.4)'
-                }]
-            });
-            
-            loadData();
+            try {
+                const container = document.getElementById('map');
+                const options = {
+                    center: new kakao.maps.LatLng(37.2636, 127.0286),
+                    level: 9
+                };
+                
+                map = new kakao.maps.Map(container, options);
+                console.log('✅ 지도 생성 완료!');
+                
+                // 클러스터러 생성
+                clusterer = new kakao.maps.MarkerClusterer({
+                    map: map,
+                    averageCenter: true,
+                    minLevel: 6
+                });
+                console.log('✅ 클러스터러 생성 완료!');
+                
+                document.getElementById('status').textContent = '✅ 지도 로딩 완료!';
+                document.getElementById('status').style.background = '#e8f5e9';
+                document.getElementById('status').style.color = '#2ecc71';
+                
+                // 2. 마커 추가
+                addMarkers();
+                
+            } catch (error) {
+                console.error('❌ 지도 생성 실패:', error);
+                document.getElementById('status').textContent = '❌ 로딩 실패: ' + error.message;
+                document.getElementById('status').style.background = '#ffebee';
+                document.getElementById('status').style.color = '#e74c3c';
+            }
         }
         
-        // 샘플 데이터 (좌표 직접 사용 - 즉시 표시!)
-        function loadData() {
-            const sampleData = [
-                { type: 'auction', 구분: '경매', 물건종류: '토지', 주소: '경기도 평택시 지제동 456-7', 
-                  lat: 37.0719, lng: 127.0769, 감정가: 150000000, 최저가: 120000000, 면적: '500㎡' },
-                { type: 'auction', 구분: '경매', 물건종류: '토지', 주소: '경기도 평택시 고덕동 123',
-                  lat: 37.0842, lng: 127.0534, 감정가: 200000000, 최저가: 160000000, 면적: '800㎡' },
-                { type: 'public', 구분: '공매', 물건종류: '토지', 주소: '경기도 화성시 봉담읍 와우리 123',
-                  lat: 37.2158, lng: 126.9451, 감정가: 80000000, 최저가: 64000000, 면적: '300㎡' },
-                { type: 'public', 구분: '공매', 물건종류: '토지', 주소: '경기도 화성시 동탄면 석우리 456',
-                  lat: 37.1876, lng: 127.0842, 감정가: 100000000, 최저가: 80000000, 면적: '400㎡' },
-                { type: 'auction', 구분: '경매', 물건종류: '토지', 주소: '경기도 수원시 권선구 고색동 789',
-                  lat: 37.2633, lng: 126.9782, 감정가: 200000000, 최저가: 160000000, 면적: '800㎡' },
-                { type: 'auction', 구분: '경매', 물건종류: '토지', 주소: '경기도 용인시 처인구 남사읍 완장리 234',
-                  lat: 37.1384, lng: 127.1889, 감정가: 120000000, 최저가: 96000000, 면적: '600㎡' },
-                { type: 'public', 구분: '공매', 물건종류: '토지', 주소: '경기도 안성시 죽산면 죽산리 567',
-                  lat: 37.0845, lng: 127.3156, 감정가: 90000000, 최저가: 72000000, 면적: '350㎡' },
-                { type: 'land', 구분: '보상토지', 사업명: '평택지제역세권', 주소: '경기도 평택시 지제동 234-5',
-                  lat: 37.0735, lng: 127.0754, 면적: '200㎡' },
-                { type: 'land', 구분: '보상토지', 사업명: '화성봉담3', 주소: '경기도 화성시 봉담읍 분천리 123',
-                  lat: 37.2145, lng: 126.9523, 면적: '150㎡' }
+        // 2. 마커 추가
+        function addMarkers() {
+            console.log('📌 마커 생성 중...');
+            
+            const data = [
+                { type: 'auction', name: '경매-평택', lat: 37.0719, lng: 127.0769, price: '1.2억' },
+                { type: 'auction', name: '경매-평택2', lat: 37.0842, lng: 127.0534, price: '1.6억' },
+                { type: 'public', name: '공매-화성', lat: 37.2158, lng: 126.9451, price: '6400만' },
+                { type: 'public', name: '공매-화성2', lat: 37.1876, lng: 127.0842, price: '8000만' },
+                { type: 'auction', name: '경매-수원', lat: 37.2633, lng: 126.9782, price: '1.6억' },
+                { type: 'land', name: '보상-평택', lat: 37.0735, lng: 127.0754, price: '-' },
+                { type: 'land', name: '보상-화성', lat: 37.2145, lng: 126.9523, price: '-' }
             ];
             
-            let auctionCount = 0, publicCount = 0, landCount = 0;
+            let aCount = 0, pCount = 0, lCount = 0;
             
-            sampleData.forEach(item => {
-                addMarker(item);
-                if (item.type === 'auction') auctionCount++;
-                if (item.type === 'public') publicCount++;
-                if (item.type === 'land') landCount++;
+            data.forEach((item, i) => {
+                const pos = new kakao.maps.LatLng(item.lat, item.lng);
+                
+                // 색상 결정
+                let color = item.type === 'auction' ? '#667eea' : 
+                           item.type === 'public' ? '#9b59b6' : '#2ecc71';
+                
+                // 마커 이미지
+                const markerImage = new kakao.maps.MarkerImage(
+                    `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="40"><circle cx="15" cy="15" r="12" fill="${color}" stroke="white" stroke-width="2"/></svg>`,
+                    new kakao.maps.Size(30, 40)
+                );
+                
+                const marker = new kakao.maps.Marker({
+                    position: pos,
+                    image: markerImage,
+                    title: item.name
+                });
+                
+                // 인포윈도우
+                const infowindow = new kakao.maps.InfoWindow({
+                    content: `<div style="padding:10px;min-width:150px;">
+                        <b>${item.name}</b><br>
+                        <span style="color:#667eea;">💰 ${item.price}</span><br>
+                        <button onclick="showPolygon(${item.lat},${item.lng})" 
+                                style="margin-top:8px;padding:5px 12px;background:#667eea;color:white;border:none;border-radius:5px;cursor:pointer;">
+                            🗺️ 땅 모양 보기
+                        </button>
+                    </div>`
+                });
+                
+                kakao.maps.event.addListener(marker, 'click', () => {
+                    infowindow.open(map, marker);
+                });
+                
+                markers.push(marker);
+                clusterer.addMarker(marker);
+                
+                // 카운트
+                if (item.type === 'auction') aCount++;
+                if (item.type === 'public') pCount++;
+                if (item.type === 'land') lCount++;
             });
             
-            document.getElementById('auction-count').textContent = auctionCount;
-            document.getElementById('public-count').textContent = publicCount;
-            document.getElementById('land-count').textContent = landCount;
+            document.getElementById('auction').textContent = aCount;
+            document.getElementById('public').textContent = pCount;
+            document.getElementById('land').textContent = lCount;
+            
+            console.log(`✅ 마커 ${data.length}개 생성 완료!`);
         }
         
-        // 마커 추가
-        function addMarker(data) {
-            const coords = new kakao.maps.LatLng(data.lat, data.lng);
+        // 3. 폴리곤 표시
+        function showPolygon(lat, lng) {
+            console.log('🔷 폴리곤 생성:', lat, lng);
             
-            let color = '#667eea', emoji = '경';
-            if (data.type === 'public') { color = '#9b59b6'; emoji = '공'; }
-            else if (data.type === 'land') { color = '#2ecc71'; emoji = '토'; }
-            
-            const markerImage = new kakao.maps.MarkerImage(
-                `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="42"><defs><filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.3"/></filter></defs><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 26 16 26s16-14 16-26c0-8.8-7.2-16-16-16z" fill="${color}" filter="url(%23shadow)"/><circle cx="16" cy="16" r="10" fill="white"/><text x="16" y="21" text-anchor="middle" fill="${color}" font-size="14" font-weight="bold">${emoji}</text></svg>`,
-                new kakao.maps.Size(32, 42)
-            );
-            
-            const marker = new kakao.maps.Marker({ position: coords, image: markerImage });
-            
-            const content = createInfoWindowContent(data, coords);
-            const infowindow = new kakao.maps.InfoWindow({ content: content });
-            
-            kakao.maps.event.addListener(marker, 'click', function() {
-                if (currentInfowindow) currentInfowindow.close();
-                infowindow.open(map, marker);
-                currentInfowindow = infowindow;
-                map.setCenter(coords);
-                map.setLevel(4);
-            });
-            
-            markers[data.type].push(marker);
-            clusterer.addMarker(marker);
-        }
-        
-        // 인포윈도우 HTML
-        function createInfoWindowContent(data, coords) {
-            const priceInManWon = data.최저가 ? (data.최저가 / 10000).toLocaleString() : '-';
-            const lat = coords.getLat();
-            const lng = coords.getLng();
-            
-            return `
-                <div class="info-window">
-                    <div class="badge">${data.구분}</div>
-                    <h3>${data.물건종류 || data.사업명 || '물건'}</h3>
-                    <div class="detail-row">
-                        <span class="icon">📍</span>
-                        ${data.주소}
-                    </div>
-                    <div class="detail-row">
-                        <span class="icon">📐</span>
-                        ${data.면적}
-                    </div>
-                    ${data.최저가 ? `
-                        <div class="price-box">
-                            <div class="price-label">최저가</div>
-                            <div class="price-value">${priceInManWon}만원</div>
-                        </div>
-                    ` : ''}
-                    <button class="polygon-btn" onclick='showPolygon("${data.주소}", ${lat}, ${lng})'>
-                        🗺️ 땅 모양 보기
-                    </button>
-                </div>
-            `;
-        }
-        
-        // 폴리곤 표시
-        function showPolygon(address, lat, lng) {
+            // 기존 폴리곤 제거
             polygons.forEach(p => p.setMap(null));
             polygons = [];
             
+            // 원형 폴리곤 생성
             const center = new kakao.maps.LatLng(lat, lng);
-            const radius = 40;
-            const points = 24;
             const path = [];
+            const radius = 50; // 50미터
             
-            for (let i = 0; i < points; i++) {
-                const angle = (i / points) * 2 * Math.PI;
+            for (let i = 0; i < 20; i++) {
+                const angle = (i / 20) * 2 * Math.PI;
                 const pLat = lat + (radius / 111000) * Math.cos(angle);
                 const pLng = lng + (radius / (111000 * Math.cos(lat * Math.PI / 180))) * Math.sin(angle);
                 path.push(new kakao.maps.LatLng(pLat, pLng));
@@ -321,34 +215,32 @@
                 path: path,
                 strokeWeight: 3,
                 strokeColor: '#e74c3c',
-                strokeOpacity: 0.9,
+                strokeOpacity: 0.8,
                 fillColor: '#e74c3c',
                 fillOpacity: 0.3
             });
             
             polygons.push(polygon);
-            document.getElementById('polygon-count').textContent = polygons.length;
+            document.getElementById('polygon').textContent = polygons.length;
+            
+            // 지도 이동
+            map.setCenter(center);
+            map.setLevel(4);
         }
         
-        // 필터 토글
-        function toggleFilter(type) {
-            filterState[type] = !filterState[type];
-            const toggle = document.getElementById(`toggle-${type}`);
-            toggle.classList.toggle('active');
-            
-            markers[type].forEach(marker => {
-                marker.setMap(filterState[type] ? map : null);
-            });
-            
-            clusterer.clear();
-            Object.keys(markers).forEach(key => {
-                if (filterState[key]) {
-                    clusterer.addMarkers(markers[key]);
-                }
-            });
-        }
+        // 페이지 로드 시 실행
+        window.onload = function() {
+            console.log('🌍 페이지 로드 완료, 지도 초기화 시작');
+            initMap();
+        };
         
-        window.onload = initMap;
+        // kakao 객체 확인
+        if (typeof kakao === 'undefined') {
+            console.error('❌ Kakao Maps API 로딩 실패!');
+            document.getElementById('status').textContent = '❌ 카카오맵 API 로딩 실패';
+        } else {
+            console.log('✅ Kakao Maps API 로딩 완료');
+        }
     </script>
 </body>
 </html>
