@@ -626,28 +626,28 @@
         <div class="layer-group">
             <div class="layer-title">Auction (정확 매칭)</div>
             <label class="layer-item">
-                <input type="checkbox" id="layer-exact-match" checked onchange="toggleLayer('exact_match')">
+                <input type="checkbox" id="layer-exact-match" onchange="toggleLayer('exact_match')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #10b981; color: #10b981;"></div>
                 <span class="layer-name">지구내 경공매 완전일치</span>
-                <span class="layer-count" style="background:#10b981;color:#fff">25</span>
+                <span class="layer-count" style="background:#10b981;color:#fff">32</span>
             </label>
             <label class="layer-item">
-                <input type="checkbox" id="layer-need-check" checked onchange="toggleLayer('need_check')">
+                <input type="checkbox" id="layer-need-check" onchange="toggleLayer('need_check')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #f59e0b; color: #f59e0b;"></div>
                 <span class="layer-name">지구내 경공매 확인필요</span>
-                <span class="layer-count" style="background:#f59e0b;color:#fff">18</span>
+                <span class="layer-count" style="background:#f59e0b;color:#fff">32</span>
             </label>
             <label class="layer-item">
-                <input type="checkbox" id="layer-general-auction" onchange="toggleLayer('auction')">
+                <input type="checkbox" id="layer-general-auction" onchange="toggleLayer('general_auction')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #6366f1; color: #6366f1;"></div>
                 <span class="layer-name">경매</span>
                 <span class="layer-count">25,244</span>
             </label>
             <label class="layer-item">
-                <input type="checkbox" id="layer-general-public" onchange="toggleLayer('public')">
+                <input type="checkbox" id="layer-general-public" onchange="toggleLayer('general_public')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #a855f7; color: #a855f7;"></div>
                 <span class="layer-name">공매</span>
@@ -661,22 +661,16 @@
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #fbbf24; color: #fbbf24;"></div>
                 <span class="layer-name" style="color:#000;font-weight:600">500m 이내</span>
-                <span class="layer-count" style="background:#fbbf24;color:#000">0</span>
+                <span class="layer-count" style="background:#fbbf24;color:#000">674</span>
             </label>
             <label class="layer-item" style="background:linear-gradient(90deg,#fb923c 0%,#f97316 100%)">
                 <input type="checkbox" id="layer-nearby-1km" onchange="toggleLayer('nearby_1km')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #fb923c; color: #fb923c;"></div>
                 <span class="layer-name" style="color:#000;font-weight:600">1km 이내</span>
-                <span class="layer-count" id="style="background:#fb923c;color:#000">1,425</span>
+                <span class="layer-count" style="background:#fb923c;color:#000">1,425</span>
             </label>
-            <label class="layer-item" style="background:linear-gradient(90deg,#f87171 0%,#ef4444 100%)">
-                <input type="checkbox" id="filter-2km" onchange="toggleDistanceFilter(2000)">
-                <div class="toggle"></div>
-                <div class="layer-color" style="background: #f87171; color: #f87171;"></div>
-                <span class="layer-name" style="color:#000;font-weight:600">2km 이내</span>
-                <span class="layer-count" id="count-2km" style="background:#f87171;color:#000">0</span>
-            </label>
+            
         </div>
         <div class="layer-group">
             <div class="layer-title">가격 필터</div>
@@ -1542,7 +1536,7 @@ var generalPublicLoaded = false;
                 markers.exact_match.push(m);
             });
             clusterers.exact_match = new kakao.maps.MarkerClusterer({
-                map: map,
+                map: null,
                 averageCenter: true,
                 minLevel: 7,
                 markers: markers.exact_match
@@ -1561,7 +1555,7 @@ var generalPublicLoaded = false;
                 markers.need_check.push(m);
             });
             clusterers.need_check = new kakao.maps.MarkerClusterer({
-                map: map,
+                map: null,
                 averageCenter: true,
                 minLevel: 7,
                 markers: markers.need_check
