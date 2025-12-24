@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>간단 테스트</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #333; }
+        .status {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        .error { background: #ffebee; color: #c62828; border: 2px solid #c62828; }
+        .success { background: #e8f5e9; color: #2e7d32; border: 2px solid #2e7d32; }
+        .info { background: #e3f2fd; color: #1565c0; border: 2px solid #1565c0; }
+        #map { width: 100%; height: 400px; background: #f0f0f0; border: 3px solid #333; margin: 20px 0; }
+        pre { background: #f5f5f5; padding: 15px; overflow: auto; }
+        .code { background: #fff3e0; padding: 3px 8px; border-radius: 3px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>🧪 카카오 지도 API 간단 테스트</h1>
+
+    <div class="info status">
+        <strong>API 키:</strong> <span class="code">29b5e465ce1f0e75c0c79be6671c8232</span><br>
+        <strong>페이지 URL:</strong> <span class="code" id="pageUrl"></span>
+    </div>
+
+    <div id="result"></div>
+    <div id="map"></div>
+    <div id="details"></div>
+
+    <script>
+        document.getElementById('pageUrl').textContent = window.location.href;
+        const result = document.getElementById('result');
+        const details = document.getElementById('details');
+
+        // SDK 로드 전 체크
+        result.innerHTML = '<div class="info status">⏳ 카카오 SDK 로딩 중...</div>';
+    </script>
+
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=29b5e465ce1f0e75c0c79be6671c8232&autoload=false"
+            onerror="document.getElementById('result').innerHTML = '<div class=\\'error status\\'>❌ <strong>SDK 스크립트 로드 실패!</strong><br><br>가능한 원인:<br>1. 네트워크 차단<br>2. 카카오 서버 문제<br>3. 잘못된 URL<br><br>이 메시지가 보이면 <strong>스크립트 자체가 로드되지 않은 것</strong>입니다.</div>'"></script>
+
+    <script>
+        setTimeout(function() {
+            if (typeof kakao === 'undefined') {
+                result.innerHTML = `
+                    <div class="error status">
+                        <h2>❌ SDK 로드 실패</h2>
+                        <p><strong>kakao</strong> 객체를 찾을 수 없습니다.</p>
+                        <p>이것은 다음을 의미합니다:</p>
+                        <ol>
+                            <li><strong>API 키가 유효하지 않음</strong> (가장 가능성 높음)</li>
+                            <li>API 키가 비활성화되었거나 삭제됨</li>
+                            <li>카카오 앱이 정지됨</li>
+                        </ol>
+                        <hr>
+                        <h3>🔧 해결 방법:</h3>
+                        <p><a href="https://developers.kakao.com" target="_blank" style="color: #1565c0; font-weight: bold;">카카오 개발자 콘솔</a>에 접속하여:</p>
+                        <ol>
+                            <li>로그인</li>
+                            <li>"내 애플리케이션" 클릭</li>
+                            <li>API 키 <code class="code">29b5e465ce1f0e75c0c79be6671c8232</code>를 사용하는 앱 찾기</li>
+                            <li>앱 상태가 "활성" 인지 확인</li>
+                            <li>"앱 설정" → "플랫폼" → "Web 플랫폼 등록"</li>
+                            <li>다음 도메인 추가:<br>
+                                <code class="code">https://c820131-bit.github.io</code>
+                            </li>
+                        </ol>
+                        <hr>
+                        <p style="color: #d32f2f; font-weight: bold;">⚠️ 만약 앱을 찾을 수 없다면, 새 API 키를 발급받아야 합니다!</p>
+                    </div>
+                `;
+
+                // Network 정보 표시
+                details.innerHTML = `
+                    <h3>🔍 추가 진단:</h3>
+                    <div class="info status">
+                        <p>아래 명령을 브라우저 콘솔(F12 → Console)에 붙여넣고 실행하세요:</p>
+                        <pre>fetch('https://dapi.kakao.com/v2/maps/sdk.js?appkey=29b5e465ce1f0e75c0c79be6671c8232')
+  .then(r => console.log('HTTP 상태:', r.status, r.statusText))
+  .catch(e => console.error('로드 실패:', e))</pre>
+                        <p>결과에 나오는 <strong>HTTP 상태 코드</strong>를 확인하세요:</p>
+                        <ul>
+                            <li><strong>200</strong> = 성공 (다른 문제)</li>
+                            <li><strong>401</strong> = 인증 실패 (API 키 문제)</li>
+                            <li><strong>403</strong> = 접근 거부 (도메인 미등록)</li>
+                            <li><strong>404</strong> = 못 찾음 (API 키 존재하지 않음)</li>
+                        </ul>
+                    </div>
+                `;
+                return;
+            }
+
+            result.innerHTML = '<div class="success status">✅ kakao 객체 로드 성공!</div>';
+
+            if (typeof kakao.maps === 'undefined') {
+                result.innerHTML += '<div class="error status">❌ kakao.maps 없음</div>';
+                return;
+            }
+
+            result.innerHTML += '<div class="success status">✅ kakao.maps 확인!</div>';
+
+            kakao.maps.load(function() {
+                result.innerHTML += '<div class="success status">✅ kakao.maps.load() 성공!</div>';
+
+                try {
+                    const container = document.getElementById('map');
+                    const options = {
+                        center: new kakao.maps.LatLng(37.5665, 126.9780),
+                        level: 8
+                    };
+
+                    const map = new kakao.maps.Map(container, options);
+
+                    const marker = new kakao.maps.Marker({
+                        position: new kakao.maps.LatLng(37.5665, 126.9780)
+                    });
+                    marker.setMap(map);
+
+                    result.innerHTML = `
+                        <div class="success status">
+                            <h2>🎉 완벽하게 작동합니다!</h2>
+                            <p>지도가 정상적으로 표시되었습니다.</p>
+                            <p><strong>결론:</strong> API 키는 정상입니다!</p>
+                            <p>원본 index.html 파일에 다른 문제가 있을 수 있습니다.</p>
+                        </div>
+                    `;
+
+                } catch (error) {
+                    result.innerHTML = `
+                        <div class="error status">
+                            <h2>❌ 지도 생성 실패</h2>
+                            <p><strong>오류:</strong> ${error.message}</p>
+                            <pre>${error.stack}</pre>
+                        </div>
+                    `;
+                }
+            });
+
+        }, 2000);
+    </script>
+</body>
+</html>
