@@ -1758,6 +1758,12 @@ function init() {
                 minLevel: 7,
                 markers: markers.exact_match
             });
+            // 체크박스가 이미 체크되어 있으면 표시
+            var chk = document.getElementById('layer-exact-match');
+            if (chk && chk.checked) {
+                clusterers.exact_match.setMap(map);
+                console.log('완전일치 자동 표시 (체크박스 체크됨)');
+            }
         })
         .catch(function(err) { console.error("완전일치 로드 실패:", err); });
 
@@ -1780,6 +1786,12 @@ function init() {
                 minLevel: 7,
                 markers: markers.need_check
             });
+            // 체크박스가 이미 체크되어 있으면 표시
+            var chk = document.getElementById('layer-need-check');
+            if (chk && chk.checked) {
+                clusterers.need_check.setMap(map);
+                console.log('확인필요 자동 표시 (체크박스 체크됨)');
+            }
         })
         .catch(function(err) { console.error("확인필요 로드 실패:", err); });
 
@@ -1802,6 +1814,12 @@ function init() {
                 minLevel: 7,
                 markers: markers.nearby_500m
             });
+            // 체크박스가 이미 체크되어 있으면 표시
+            var chk = document.getElementById('layer-nearby-500m');
+            if (chk && chk.checked) {
+                clusterers.nearby_500m.setMap(map);
+                console.log('500m 이내 자동 표시 (체크박스 체크됨)');
+            }
         })
         .catch(function(err) { console.error("500m 이내 로드 실패:", err); });
 
@@ -1824,6 +1842,12 @@ function init() {
                 minLevel: 7,
                 markers: markers.nearby_1km
             });
+            // 체크박스가 이미 체크되어 있으면 표시
+            var chk = document.getElementById('layer-nearby-1km');
+            if (chk && chk.checked) {
+                clusterers.nearby_1km.setMap(map);
+                console.log('1km 이내 자동 표시 (체크박스 체크됨)');
+            }
         })
         .catch(function(err) { console.error("1km 이내 로드 실패:", err); });
 
