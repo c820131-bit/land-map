@@ -612,15 +612,8 @@
                 <input type="checkbox" id="layer-land" onchange="toggleLayer('land')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #f97316; color: #f97316;"></div>
-                <span class="layer-name">사업지구 경계</span>
-                <span class="layer-count">187</span>
-            </label>
-            <label class="layer-item">
-                <input type="checkbox" id="layer-large_projects" onchange="toggleLayer('large_projects')">
-                <div class="toggle"></div>
-                <div class="layer-color" style="background: #fb923c; color: #fb923c;"></div>
-                <span class="layer-name">큰 사업지구 (마커)</span>
-                <span class="layer-count">40</span>
+                <span class="layer-name">사업지구</span>
+                <span class="layer-count">227</span>
             </label>
             <label class="layer-item">
                 <input type="checkbox" id="layer-development" onchange="toggleLayer('development')">
@@ -1838,29 +1831,20 @@ function init() {
         })
         .catch(function(err) { console.error("1km 이내 로드 실패:", err); });
 
-    // 큰 사업지구 마커 로드 (10km 이상 프로젝트)
-    fetch("data_large_project_markers.json")
+    // 사업지구 마커 로드 (폴리곤으로 표현 안되는 프로젝트)
+    fetch("data_project_markers.json")
         .then(function(r) { return r.json(); })
         .then(function(data) {
-            console.log("큰 사업지구 마커 로드:", data.length);
+            console.log("사업지구 마커 로드:", data.length);
             data.forEach(function(d) {
-                var m = createMarkerNoMap(d.lat, d.lng, '#fb923c', 'large_project');
-                var info = '<div style="padding:14px 18px;background:#1a1a1f;color:#fff;border-radius:10px;border:1px solid rgba(255,255,255,0.1);font-family:Pretendard,sans-serif;max-width:280px"><div style="font-weight:600;font-size:13px">' + d.project + '</div><div style="color:rgba(255,255,255,0.7);font-size:11px;margin-top:6px">' + d.address + '</div></div>';
+                var m = createMarkerNoMap(d.lat, d.lng, '#f97316', 'project_marker');
+                var info = '<div style="padding:14px 18px;background:#1a1a1f;color:#fff;border-radius:10px;border:1px solid rgba(255,255,255,0.1);font-family:Pretendard,sans-serif;max-width:280px"><div style="font-weight:600;font-size:13px">' + d.project + '</div><div style="color:rgba(255,255,255,0.7);font-size:11px;margin-top:6px">토지: ' + d.parcels + '개</div></div>';
                 addClickEvent(m, info);
-                markers.large_projects.push(m);
+                markers.land.push(m);
             });
-            console.log('큰 사업지구 마커 생성 완료:', markers.large_projects.length, '개');
-
-            // Clusterer 생성 (43,905개 마커이므로 반드시 클러스터링 필요)
-            clusterers.large_projects = new kakao.maps.MarkerClusterer({
-                map: null,
-                averageCenter: true,
-                minLevel: 7,
-                markers: markers.large_projects
-            });
-            console.log('큰 사업지구 Clusterer 생성 완료');
+            console.log('사업지구 마커 생성 완료:', data.length, '개 (폴리곤 외 프로젝트)');
         })
-        .catch(function(err) { console.error("큰 사업지구 마커 로드 실패:", err); });
+        .catch(function(err) { console.error("사업지구 마커 로드 실패:", err); });
 
     // 토지보상구역 폴리곤 데이터 로드 및 렌더링
     fetch("data_proj.json")
@@ -2158,17 +2142,6 @@ function toggleLayer(category) {
             // 이미 로드됨 - Clusterer 토글
             clusterers.general_public.setMap(show ? map : null);
             console.log('공매 Clusterer 토글:', show, '마커 수:', markers.general_public.length);
-        }
-        return;
-    }
-
-    // 큰 사업지구 마커는 Clusterer 사용
-    if (category === 'large_projects') {
-        if (clusterers.large_projects) {
-            clusterers.large_projects.setMap(show ? map : null);
-            console.log('큰 사업지구 Clusterer 토글:', show, '마커 수:', markers.large_projects.length);
-        } else {
-            console.warn('큰 사업지구 Clusterer가 아직 로드되지 않았습니다');
         }
         return;
     }
