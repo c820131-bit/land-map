@@ -1516,7 +1516,7 @@ var generalPublicLoaded = false;
 
 // 경매 데이터 로드 함수 (배치 처리로 UI 블로킹 방지)
 function loadAuctionData(callback) {
-    if (auctionLoaded) { callback(); return; }
+    if (generalAuctionLoaded) { callback(); return; }
     console.log("경매 데이터 로딩...");
     fetch("data_general_auction.json")
         .then(function(r) { return r.json(); })
@@ -1531,7 +1531,7 @@ function loadAuctionData(callback) {
                 var end = Math.min(index + batchSize, data.length);
                 for (var i = index; i < end; i++) {
                     var d = data[i];
-                    var m = createMarkerNoMap(d.lat, d.lng, COLORS.general_auction, "auction");
+                    var m = createMarkerNoMap(d.lat, d.lng, COLORS.general_auction, "general_auction");
                     var info = createAuctionInfo(d, "경매");
                     addClickEvent(m, info, d);
                     markers.general_auction.push(m);
@@ -1543,12 +1543,15 @@ function loadAuctionData(callback) {
                     // 다음 배치를 비동기로 처리
                     setTimeout(processBatch, 0);
                 } else {
-                    // 모든 마커 생성 완료
-                    if (clusterers.auction) {
-                        clusterers.auction.addMarkers(markers.auction);
-                    }
+                    // 모든 마커 생성 완료 - 클러스터러 생성
+                    clusterers.general_auction = new kakao.maps.MarkerClusterer({
+                        map: null,
+                        averageCenter: true,
+                        minLevel: 7,
+                        markers: markers.general_auction
+                    });
                     generalAuctionLoaded = true;
-                    console.log("경매 마커 생성 완료:", markers.auction.length);
+                    console.log("경매 마커 생성 완료:", markers.general_auction.length);
                     callback();
                 }
             }
@@ -1559,7 +1562,7 @@ function loadAuctionData(callback) {
 
 // 공매 데이터 로드 함수 (배치 처리로 UI 블로킹 방지)
 function loadPublicData(callback) {
-    if (publicLoaded) { callback(); return; }
+    if (generalPublicLoaded) { callback(); return; }
     console.log("공매 데이터 로딩...");
     fetch("data_general_public.json")
         .then(function(r) { return r.json(); })
@@ -1574,7 +1577,7 @@ function loadPublicData(callback) {
                 var end = Math.min(index + batchSize, data.length);
                 for (var i = index; i < end; i++) {
                     var d = data[i];
-                    var m = createMarkerNoMap(d.lat, d.lng, COLORS.general_public, "public");
+                    var m = createMarkerNoMap(d.lat, d.lng, COLORS.general_public, "general_public");
                     var info = createAuctionInfo(d, "공매");
                     addClickEvent(m, info, d);
                     markers.general_public.push(m);
@@ -1586,12 +1589,15 @@ function loadPublicData(callback) {
                     // 다음 배치를 비동기로 처리
                     setTimeout(processBatch, 0);
                 } else {
-                    // 모든 마커 생성 완료
-                    if (clusterers.public) {
-                        clusterers.public.addMarkers(markers.public);
-                    }
+                    // 모든 마커 생성 완료 - 클러스터러 생성
+                    clusterers.general_public = new kakao.maps.MarkerClusterer({
+                        map: null,
+                        averageCenter: true,
+                        minLevel: 7,
+                        markers: markers.general_public
+                    });
                     generalPublicLoaded = true;
-                    console.log("공매 마커 생성 완료:", markers.public.length);
+                    console.log("공매 마커 생성 완료:", markers.general_public.length);
                     callback();
                 }
             }
@@ -2091,24 +2097,32 @@ function showParcel(lat, lng, address, areaInfo) {
 
 function toggleLayer(category) {
     var chk = document.getElementById('layer-' + category);
-    var show = chk.checked;
-
-    // 500m 필터가 활성화되어 있으면 필터 재적용
-    if (filter500mEnabled && ['inside', 'inside_polygon', 'nearby', 'auction', 'public'].indexOf(category) >= 0) {
-        toggle500mFilter();
+    if (!chk) {
+        console.error('체크박스를 찾을 수 없습니다:', 'layer-' + category);
         return;
     }
+    var show = chk.checked;
+
+    console.log('toggleLayer 호출:', category, '표시:', show);
 
     // 경매/공매는 lazy loading
     if (category === 'general_auction' && show && !generalAuctionLoaded) {
+        console.log('경매 데이터 로딩 시작...');
         loadAuctionData(function() {
-            clusterers.auction.setMap(map);
+            if (clusterers.general_auction) {
+                clusterers.general_auction.setMap(map);
+                console.log('경매 클러스터러 표시 완료');
+            }
         });
         return;
     }
     if (category === 'general_public' && show && !generalPublicLoaded) {
+        console.log('공매 데이터 로딩 시작...');
         loadPublicData(function() {
-            clusterers.public.setMap(map);
+            if (clusterers.general_public) {
+                clusterers.general_public.setMap(map);
+                console.log('공매 클러스터러 표시 완료');
+            }
         });
         return;
     }
@@ -2116,10 +2130,14 @@ function toggleLayer(category) {
     // 클러스터러가 있는 카테고리 처리
     if (clusterers[category]) {
         clusterers[category].setMap(show ? map : null);
-    } else {
+        console.log('클러스터러 토글 완료:', category, '마커 수:', clusterers[category].getMarkers().length);
+    } else if (markers[category] && markers[category].length > 0) {
         markers[category].forEach(function(m) {
             m.setMap(show ? map : null);
         });
+        console.log('마커 토글 완료:', category, '마커 수:', markers[category].length);
+    } else {
+        console.warn('카테고리를 찾을 수 없습니다:', category, 'clusterers:', !!clusterers[category], 'markers:', markers[category] ? markers[category].length : 0);
     }
 }
 
