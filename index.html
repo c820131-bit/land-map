@@ -578,6 +578,7 @@
     <div class="zoom-control">
         <button class="zoom-btn" onclick="zoomIn()">+</button>
         <button class="zoom-btn" onclick="zoomOut()">−</button>
+        <button class="zoom-btn" onclick="resetZoom()" title="원래 위치로">🏠</button>
     </div>
 
     <div class="control-panel">
@@ -2175,6 +2176,10 @@ function toggleCadastral() {
 
 function zoomIn() { map.setLevel(map.getLevel() - 1); }
 function zoomOut() { map.setLevel(map.getLevel() + 1); }
+function resetZoom() {
+    map.setCenter(new kakao.maps.LatLng(36.5, 127.5));
+    map.setLevel(13);
+}
 
 // 로드뷰 관련 변수
 var roadview = null;
