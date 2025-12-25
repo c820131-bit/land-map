@@ -2170,9 +2170,15 @@ function showRoadview(lat, lng) {
             return;
         }
 
-        // 로드뷰 컨테이너 표시
-        document.getElementById('roadview').classList.add('active');
+        // 로드뷰 컨테이너 먼저 표시 (크기가 0이면 로드뷰가 안됨)
+        var rvContainer = document.getElementById('roadview');
+        rvContainer.classList.add('active');
         document.querySelector('.roadview-close').classList.add('active');
+
+        // 로드뷰가 초기화되지 않았으면 지금 초기화
+        if (!roadview) {
+            roadview = new kakao.maps.Roadview(rvContainer);
+        }
 
         // 로드뷰 이동
         roadview.setPanoId(panoId, position);
@@ -2589,8 +2595,7 @@ function closeParcelInfo() {
 }
 
 function initRoadview() {
-    var rvContainer = document.getElementById('roadview');
-    roadview = new kakao.maps.Roadview(rvContainer);
+    // roadviewClient만 먼저 초기화 (로드뷰는 표시될 때 생성)
     roadviewClient = new kakao.maps.RoadviewClient();
 }
 </script>
