@@ -1674,6 +1674,34 @@ function init() {
         level: 13
     });
 
+    // 마우스 휠 확대/축소 속도 1.5배 개선
+    var wheelTimeout;
+    var lastWheelTime = 0;
+    container.addEventListener('wheel', function(e) {
+        var now = Date.now();
+        // 100ms 이내 연속 휠 이벤트는 무시 (너무 빠른 연속 줌 방지)
+        if (now - lastWheelTime < 100) {
+            e.preventDefault();
+            return;
+        }
+        lastWheelTime = now;
+
+        var delta = e.deltaY;
+        var currentLevel = map.getLevel();
+
+        // 1.5배 빠른 줌을 위해 deltaY 임계값을 낮춤
+        if (Math.abs(delta) > 30) {  // 기존보다 낮은 임계값
+            if (delta > 0) {
+                // 축소 (레벨 증가)
+                map.setLevel(currentLevel + 1, {animate: true});
+            } else {
+                // 확대 (레벨 감소)
+                map.setLevel(currentLevel - 1, {animate: true});
+            }
+            e.preventDefault();
+        }
+    }, { passive: false });
+
     // 철도
     DATA_rail.forEach(function(d) {
         var m = createMarker(d.lat, d.lng, COLORS.railway, 'rail');
