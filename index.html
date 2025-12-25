@@ -529,10 +529,10 @@
     <button class="roadview-close" onclick="closeRoadview()">✕ 로드뷰 닫기</button>
 
     <div class="map-type-selector">
-        <button class="map-type-btn active" onclick="setMapType('roadmap')">일반</button>
-        <button class="map-type-btn" onclick="setMapType('skyview')">스카이뷰</button>
-        <button class="map-type-btn" onclick="toggleCadastral()">지적도</button>
-        <button class="map-type-btn" onclick="toggleRoadviewMode()">로드뷰</button>
+        <button class="map-type-btn active" id="btn-roadmap" onclick="setMapType('roadmap')">일반</button>
+        <button class="map-type-btn" id="btn-skyview" onclick="setMapType('skyview')">스카이뷰</button>
+        <button class="map-type-btn" id="btn-cadastral" onclick="toggleCadastral()">지적도</button>
+        <button class="map-type-btn" id="btn-roadview" onclick="toggleRoadviewMode()">로드뷰</button>
     </div>
 
     <div class="search-panel">
@@ -2142,21 +2142,31 @@ function setMapType(type) {
         'skyview': kakao.maps.MapTypeId.HYBRID
     };
     map.setMapTypeId(mapTypes[type]);
-    document.querySelectorAll('.map-type-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-    });
-    event.target.classList.add('active');
+
+    // 일반/스카이뷰 버튼만 토글 (지적도, 로드뷰는 별개)
+    document.getElementById('btn-roadmap').classList.remove('active');
+    document.getElementById('btn-skyview').classList.remove('active');
+    document.getElementById('btn-' + type).classList.add('active');
+
+    // 스카이뷰 선택 시 지적도 오버레이 제거
+    if (type === 'skyview' && cadastralOn) {
+        cadastralOn = false;
+        map.removeOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
+        document.getElementById('btn-cadastral').classList.remove('active');
+    }
 }
 
 var cadastralOn = false;
 function toggleCadastral() {
     cadastralOn = !cadastralOn;
+    var btn = document.getElementById('btn-cadastral');
     if (cadastralOn) {
         map.addOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
+        btn.classList.add('active');
     } else {
         map.removeOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
+        btn.classList.remove('active');
     }
-    event.target.classList.toggle('active', cadastralOn);
 }
 
 function zoomIn() { map.setLevel(map.getLevel() - 1); }
@@ -2174,6 +2184,10 @@ var roadviewClickListener = null;
 
 // 로드뷰 버튼 클릭 - 현재 지도 중심에서 로드뷰 표시
 function toggleRoadviewMode() {
+    if (!roadviewClient) {
+        alert('로드뷰 초기화 중입니다. 잠시 후 다시 시도해주세요.');
+        return;
+    }
     var center = map.getCenter();
     showRoadview(center.getLat(), center.getLng());
 }
@@ -2182,10 +2196,10 @@ function toggleRoadviewMode() {
 function showRoadview(lat, lng) {
     var position = new kakao.maps.LatLng(lat, lng);
 
-    // 가장 가까운 로드뷰 위치 찾기
-    roadviewClient.getNearestPanoId(position, 50, function(panoId) {
+    // 가장 가까운 로드뷰 위치 찾기 (300m 범위로 확대)
+    roadviewClient.getNearestPanoId(position, 300, function(panoId) {
         if (panoId === null) {
-            alert('이 위치에는 로드뷰가 없습니다.');
+            alert('이 위치 근처에는 로드뷰가 없습니다. 도로 근처로 이동해주세요.');
             return;
         }
 
