@@ -1672,7 +1672,7 @@ function init() {
     var container = document.getElementById('map');
     map = new kakao.maps.Map(container, {
         center: new kakao.maps.LatLng(36.5, 127.5),
-        level: 13
+        level: 8
     });
 
     // 마우스 휠 확대/축소 속도 3배 개선 (매우 민감하게)
@@ -2164,12 +2164,13 @@ function zoomIn() { map.setLevel(map.getLevel() - 1); }
 function zoomOut() { map.setLevel(map.getLevel() + 1); }
 function resetZoom() {
     map.setCenter(new kakao.maps.LatLng(36.5, 127.5));
-    map.setLevel(13);
+    map.setLevel(8);
+    console.log('초기화: 레벨 8');
 }
 function maxZoom() {
-    // 최대 확대 (레벨 1 = 가장 가까운 줌)
-    map.setLevel(1);
-    console.log('최대 확대: 레벨 1');
+    // 확대 뷰 (레벨 3)
+    map.setLevel(3);
+    console.log('확대 뷰: 레벨 3');
 }
 
 // 로드뷰 관련 변수
