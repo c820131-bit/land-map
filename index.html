@@ -1922,13 +1922,13 @@ function createMarkerNoMap(lat, lng, color, type) {
     var svg, size;
 
     if (type === 'general_auction') {
-        // 경매: 작은 원형
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><circle cx="4" cy="4" r="3" fill="' + color + '" stroke="#fff" stroke-width="1"/></svg>';
-        size = 8;
+        // 경매: (경) 텍스트
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><circle cx="8" cy="8" r="7" fill="' + color + '" stroke="#fff" stroke-width="1"/><text x="8" y="11" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle" font-family="sans-serif">경</text></svg>';
+        size = 16;
     } else if (type === 'general_public') {
-        // 공매: 작은 원형
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><circle cx="4" cy="4" r="3" fill="' + color + '" stroke="#fff" stroke-width="1"/></svg>';
-        size = 8;
+        // 공매: (공) 텍스트
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><circle cx="8" cy="8" r="7" fill="' + color + '" stroke="#fff" stroke-width="1"/><text x="8" y="11" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle" font-family="sans-serif">공</text></svg>';
+        size = 16;
     } else if (type === 'exact_match') {
         // 완전일치: ⭐
         svg = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"><text x="11" y="17" font-size="18" text-anchor="middle">⭐</text></svg>';
