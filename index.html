@@ -624,58 +624,27 @@
             </label>
         </div>
         <div class="layer-group">
-            <div class="layer-title">Auction (정확 매칭)</div>
+            <div class="layer-title">옥션 정환 매칭</div>
             <label class="layer-item">
-                <input type="checkbox" id="layer-inside" checked onchange="toggleLayer('inside')">
+                <input type="checkbox" id="layer-exact" checked onchange="toggleLayer('exact')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #ef4444; color: #ef4444;"></div>
-                <span class="layer-name">지구내 경공매</span>
-                <span class="layer-count" style="background:#ef4444;color:#fff">22</span>
+                <span class="layer-name">완전일치</span>
+                <span class="layer-count" id="count-exact" style="background:#ef4444;color:#fff">0</span>
             </label>
-            <label class="layer-item">
-                <input type="checkbox" id="layer-nearby" checked onchange="toggleLayer('nearby')">
-                <div class="toggle"></div>
-                <div class="layer-color" style="background: #f97316; color: #f97316;"></div>
-                <span class="layer-name">지구 인근 경공매</span>
-                <span class="layer-count">741</span>
-            </label>
-            <label class="layer-item">
-                <input type="checkbox" id="layer-auction" onchange="toggleLayer('auction')">
-                <div class="toggle"></div>
-                <div class="layer-color" style="background: #6366f1; color: #6366f1;"></div>
-                <span class="layer-name">일반 경매</span>
-                <span class="layer-count">27,025</span>
-            </label>
-            <label class="layer-item">
-                <input type="checkbox" id="layer-public" onchange="toggleLayer('public')">
-                <div class="toggle"></div>
-                <div class="layer-color" style="background: #a855f7; color: #a855f7;"></div>
-                <span class="layer-name">일반 공매</span>
-                <span class="layer-count">4,704</span>
-            </label>
-        </div>
-        <div class="layer-group">
-            <div class="layer-title">거리 필터</div>
             <label class="layer-item" style="background:linear-gradient(90deg,#fbbf24 0%,#f59e0b 100%)">
-                <input type="checkbox" id="filter-500m" onchange="toggleDistanceFilter(500)">
+                <input type="checkbox" id="layer-nearby500" onchange="toggleLayer('nearby500')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #fbbf24; color: #fbbf24;"></div>
                 <span class="layer-name" style="color:#000;font-weight:600">500m 이내</span>
-                <span class="layer-count" id="count-500m" style="background:#fbbf24;color:#000">0</span>
+                <span class="layer-count" id="count-nearby500" style="background:#fbbf24;color:#000">0</span>
             </label>
             <label class="layer-item" style="background:linear-gradient(90deg,#fb923c 0%,#f97316 100%)">
-                <input type="checkbox" id="filter-1km" onchange="toggleDistanceFilter(1000)">
+                <input type="checkbox" id="layer-nearby1km" onchange="toggleLayer('nearby1km')">
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #fb923c; color: #fb923c;"></div>
                 <span class="layer-name" style="color:#000;font-weight:600">1km 이내</span>
-                <span class="layer-count" id="count-1km" style="background:#fb923c;color:#000">0</span>
-            </label>
-            <label class="layer-item" style="background:linear-gradient(90deg,#f87171 0%,#ef4444 100%)">
-                <input type="checkbox" id="filter-2km" onchange="toggleDistanceFilter(2000)">
-                <div class="toggle"></div>
-                <div class="layer-color" style="background: #f87171; color: #f87171;"></div>
-                <span class="layer-name" style="color:#000;font-weight:600">2km 이내</span>
-                <span class="layer-count" id="count-2km" style="background:#f87171;color:#000">0</span>
+                <span class="layer-count" id="count-nearby1km" style="background:#fb923c;color:#000">0</span>
             </label>
         </div>
         <div class="layer-group">
@@ -707,17 +676,16 @@
 
     <div class="stats-panel">
         <div class="stats-title">Statistics</div>
-        <div class="stat-item"><span class="stat-label">전체</span><span class="stat-value">32,488</span></div>
-        <div class="stat-item"><span class="stat-label">지구내</span><span class="stat-value highlight">22</span></div>
-        <div class="stat-item"><span class="stat-label">지구인근</span><span class="stat-value">1055</span></div>
+        <div class="stat-item"><span class="stat-label">완전일치</span><span class="stat-value highlight" id="stat-exact">0</span></div>
+        <div class="stat-item"><span class="stat-label">500m이내</span><span class="stat-value" id="stat-500m">0</span></div>
+        <div class="stat-item"><span class="stat-label">1km이내</span><span class="stat-value" id="stat-1km">0</span></div>
         <div class="stat-item"><span class="stat-label">사업지구</span><span class="stat-value">172</span></div>
     </div>
 
     <div class="legend">
-        <div class="legend-item"><span style="background: #ef4444; color: #ef4444;"></span><span>지구내</span></div>
-        <div class="legend-item"><span style="background: #f97316; color: #f97316;"></span><span>인근</span></div>
-        <div class="legend-item"><span style="background: #6366f1; color: #6366f1;"></span><span>경매</span></div>
-        <div class="legend-item"><span style="background: #a855f7; color: #a855f7;"></span><span>공매</span></div>
+        <div class="legend-item"><span style="background: #ef4444; color: #ef4444;"></span><span>완전일치</span></div>
+        <div class="legend-item"><span style="background: #fbbf24; color: #fbbf24;"></span><span>500m</span></div>
+        <div class="legend-item"><span style="background: #fb923c; color: #fb923c;"></span><span>1km</span></div>
     </div>
 
     <div class="logo">INVESTMENT MAP</div>
@@ -1520,14 +1488,77 @@ var COLORS = {
 var map, curPoly = null;
 var markers = {
     railway: [], highway: [], ic: [], development: [],
-    inside: [], nearby: [], auction: [], public: [], land: []
-, inside_polygon: []};
+    exact: [], nearby500: [], nearby1km: [], land: []
+};
 
 var clusterers = {};
 var auctionLoaded = false;
 var publicLoaded = false;
 
-// 경매 데이터 로드 함수 (배치 처리로 UI 블로킹 방지)
+// 완전일치 데이터 로드 함수
+var exactLoaded = false;
+function loadExactMatchData(callback) {
+    if (exactLoaded) { if(callback) callback(); return; }
+    console.log("완전일치 데이터 로딩...");
+    fetch("data_exact_match.json")
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            console.log("완전일치 데이터 로드 완료:", data.length);
+            data.forEach(function(d) {
+                var m = createMarkerNoMap(d.lat, d.lng, '#ef4444', "exact");
+                var info = createAuctionInfo(d, "완전일치");
+                addClickEvent(m, info, d);
+                markers.exact.push(m);
+            });
+            exactLoaded = true;
+            document.getElementById('count-exact').textContent = data.length.toLocaleString();
+            if(callback) callback();
+        });
+}
+
+// 500m 이내 데이터 로드 함수
+var nearby500Loaded = false;
+function loadNearby500Data(callback) {
+    if (nearby500Loaded) { if(callback) callback(); return; }
+    console.log("500m 이내 데이터 로딩...");
+    fetch("data_nearby_500m.json")
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            console.log("500m 이내 데이터 로드 완료:", data.length);
+            data.forEach(function(d) {
+                var m = createMarkerNoMap(d.lat, d.lng, '#fbbf24', "nearby500");
+                var info = createAuctionInfo(d, "500m이내");
+                addClickEvent(m, info, d);
+                markers.nearby500.push(m);
+            });
+            nearby500Loaded = true;
+            document.getElementById('count-nearby500').textContent = data.length.toLocaleString();
+            if(callback) callback();
+        });
+}
+
+// 1km 이내 데이터 로드 함수
+var nearby1kmLoaded = false;
+function loadNearby1kmData(callback) {
+    if (nearby1kmLoaded) { if(callback) callback(); return; }
+    console.log("1km 이내 데이터 로딩...");
+    fetch("data_nearby_1km.json")
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            console.log("1km 이내 데이터 로드 완료:", data.length);
+            data.forEach(function(d) {
+                var m = createMarkerNoMap(d.lat, d.lng, '#fb923c', "nearby1km");
+                var info = createAuctionInfo(d, "1km이내");
+                addClickEvent(m, info, d);
+                markers.nearby1km.push(m);
+            });
+            nearby1kmLoaded = true;
+            document.getElementById('count-nearby1km').textContent = data.length.toLocaleString();
+            if(callback) callback();
+        });
+}
+
+// [삭제됨] 경매 데이터 로드 함수
 function loadAuctionData(callback) {
     if (auctionLoaded) { callback(); return; }
     console.log("경매 데이터 로딩...");
@@ -2034,22 +2065,24 @@ function toggleLayer(category) {
     var chk = document.getElementById('layer-' + category);
     var show = chk.checked;
 
-    // 500m 필터가 활성화되어 있으면 필터 재적용
-    if (filter500mEnabled && ['inside', 'inside_polygon', 'nearby', 'auction', 'public'].indexOf(category) >= 0) {
-        toggle500mFilter();
-        return;
-    }
-
-    // 경매/공매는 lazy loading
-    if (category === 'auction' && show && !auctionLoaded) {
-        loadAuctionData(function() {
-            clusterers.auction.setMap(map);
+    // 완전일치 lazy loading
+    if (category === 'exact' && show && !exactLoaded) {
+        loadExactMatchData(function() {
+            markers.exact.forEach(function(m) { m.setMap(map); });
         });
         return;
     }
-    if (category === 'public' && show && !publicLoaded) {
-        loadPublicData(function() {
-            clusterers.public.setMap(map);
+    // 500m 이내 lazy loading
+    if (category === 'nearby500' && show && !nearby500Loaded) {
+        loadNearby500Data(function() {
+            markers.nearby500.forEach(function(m) { m.setMap(map); });
+        });
+        return;
+    }
+    // 1km 이내 lazy loading
+    if (category === 'nearby1km' && show && !nearby1kmLoaded) {
+        loadNearby1kmData(function() {
+            markers.nearby1km.forEach(function(m) { m.setMap(map); });
         });
         return;
     }
@@ -2057,7 +2090,7 @@ function toggleLayer(category) {
     // 클러스터러가 있는 카테고리 처리
     if (clusterers[category]) {
         clusterers[category].setMap(show ? map : null);
-    } else {
+    } else if (markers[category]) {
         markers[category].forEach(function(m) {
             m.setMap(show ? map : null);
         });
@@ -2520,6 +2553,10 @@ function initRoadview() {
             initRoadview();
             initSearchData();
             loadFavorites();
+            // 완전일치 데이터 자동 로드 (기본 체크됨)
+            loadExactMatchData(function() {
+                markers.exact.forEach(function(m) { m.setMap(map); });
+            });
         });
     };
     document.head.appendChild(s);
