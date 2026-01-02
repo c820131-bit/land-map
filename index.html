@@ -1497,18 +1497,38 @@ var publicLoaded = false;
 
 // 완전일치 데이터 로드 함수
 var exactLoaded = false;
+var polygons = { exact: [], nearby500: [] };
 function loadExactMatchData(callback) {
     if (exactLoaded) { if(callback) callback(); return; }
-    console.log("완전일치 데이터 로딩...");
-    fetch("data_exact_match.json")
+    console.log("완전일치 폴리곤 데이터 로딩...");
+    fetch("data_exact_polygons.json")
         .then(function(r) { return r.json(); })
         .then(function(data) {
-            console.log("완전일치 데이터 로드 완료:", data.length);
+            console.log("완전일치 폴리곤 로드 완료:", data.length);
             data.forEach(function(d) {
-                var m = createMarkerNoMap(d.lat, d.lng, '#ef4444', "exact");
-                var info = createAuctionInfo(d, "완전일치");
-                addClickEvent(m, info, d);
-                markers.exact.push(m);
+                if (!d.polygon || d.polygon.length < 3) return;
+                var path = d.polygon.map(function(c) {
+                    return new kakao.maps.LatLng(c[1], c[0]);
+                });
+                var poly = new kakao.maps.Polygon({
+                    path: path,
+                    strokeWeight: 2,
+                    strokeColor: '#10b981',
+                    strokeOpacity: 0.8,
+                    fillColor: '#10b981',
+                    fillOpacity: 0.4
+                });
+                kakao.maps.event.addListener(poly, 'click', function() {
+                    var info = '<div style="padding:12px;background:#1a1a1f;color:#fff;border-radius:8px;font-size:12px;max-width:300px">' +
+                        '<div style="font-weight:600;color:#10b981;margin-bottom:8px">완전일치</div>' +
+                        '<div>' + (d.address || '-') + '</div>' +
+                        '<div style="margin-top:6px;color:#94a3b8">사건번호: ' + (d.case_no || '-') + '</div>' +
+                        '</div>';
+                    var iw = new kakao.maps.InfoWindow({ content: info });
+                    iw.open(map, new kakao.maps.LatLng(d.lat, d.lng));
+                    setTimeout(function() { iw.close(); }, 5000);
+                });
+                polygons.exact.push(poly);
             });
             exactLoaded = true;
             document.getElementById('count-exact').textContent = data.length.toLocaleString();
