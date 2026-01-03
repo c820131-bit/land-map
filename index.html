@@ -648,28 +648,10 @@
             </label>
         </div>
         <div class="layer-group">
-            <div class="layer-title">가격 필터</div>
-            <div class="price-filter">
-                <div class="price-option">
-                    <input type="radio" name="price" id="price-all" value="all" checked onchange="applyPriceFilter()">
-                    <label for="price-all">전체</label>
-                </div>
-                <div class="price-option">
-                    <input type="radio" name="price" id="price-1" value="1" onchange="applyPriceFilter()">
-                    <label for="price-1">1억 이하</label>
-                </div>
-                <div class="price-option">
-                    <input type="radio" name="price" id="price-5" value="5" onchange="applyPriceFilter()">
-                    <label for="price-5">1억 ~ 5억</label>
-                </div>
-                <div class="price-option">
-                    <input type="radio" name="price" id="price-10" value="10" onchange="applyPriceFilter()">
-                    <label for="price-10">5억 ~ 10억</label>
-                </div>
-                <div class="price-option">
-                    <input type="radio" name="price" id="price-over" value="over" onchange="applyPriceFilter()">
-                    <label for="price-over">10억 초과</label>
-                </div>
+            <div class="layer-title">빠른 줌</div>
+            <div style="display:flex;gap:8px;padding:4px 0;">
+                <button onclick="quickZoom('in')" style="flex:1;padding:10px 0;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;">🔍 확대</button>
+                <button onclick="quickZoom('out')" style="flex:1;padding:10px 0;background:linear-gradient(135deg,#6366f1,#4f46e5);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;">🗺️ 축소</button>
             </div>
         </div>
     </div>
@@ -2241,6 +2223,15 @@ function toggleCadastral() {
 function zoomIn() { map.setLevel(map.getLevel() - 1); }
 function zoomOut() { map.setLevel(map.getLevel() + 1); }
 
+// 빠른 줌 (한 번에 특정 레벨로 이동)
+function quickZoom(type) {
+    if (type === 'in') {
+        map.setLevel(4);  // 확대: 레벨 4 (약 250m)
+    } else {
+        map.setLevel(10); // 축소: 레벨 10 (약 8km)
+    }
+}
+
 // 로드뷰 관련 변수
 var roadview = null;
 var roadviewClient = null;
@@ -2394,52 +2385,6 @@ document.addEventListener('click', function(e) {
         document.getElementById('search-results').classList.remove('active');
     }
 });
-
-// ====== 가격 필터 ======
-var currentPriceFilter = 'all';
-var auctionDataByMarker = new Map();
-
-function applyPriceFilter() {
-    var selected = document.querySelector('input[name="price"]:checked').value;
-    currentPriceFilter = selected;
-
-    var categories = ['inside', 'inside_polygon', 'nearby', 'auction', 'public'];
-    var count = 0;
-
-    categories.forEach(function(cat) {
-        var layerChk = document.getElementById('layer-' + cat);
-        if (!layerChk) return;
-
-        markers[cat].forEach(function(m, idx) {
-            var data = auctionDataByMarker.get(m);
-            if (!data) return;
-
-            var price = data.min_price || 0;
-            var show = false;
-
-            if (selected === 'all') {
-                show = true;
-            } else if (selected === '1' && price > 0 && price <= 100000000) {
-                show = true;
-            } else if (selected === '5' && price > 100000000 && price <= 500000000) {
-                show = true;
-            } else if (selected === '10' && price > 500000000 && price <= 1000000000) {
-                show = true;
-            } else if (selected === 'over' && price > 1000000000) {
-                show = true;
-            }
-
-            if (show && layerChk.checked) {
-                m.setMap(map);
-                count++;
-            } else {
-                m.setMap(null);
-            }
-        });
-    });
-
-    console.log('가격 필터 적용:', selected, '표시:', count);
-}
 
 // ====== 관심 목록 ======
 var favorites = [];
