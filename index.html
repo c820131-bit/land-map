@@ -1501,78 +1501,47 @@ var exactLoaded = false;
 var polygons = { exact: [], nearby500: [], nearby1km: [] };
 function loadExactMatchData(callback) {
     if (exactLoaded) { if(callback) callback(); return; }
-    console.log("완전일치 폴리곤 데이터 로딩...");
+    console.log("완전일치 데이터 로딩 (토지목록좌표 기반)...");
 
-    fetch("data_exact_polygons.json?v=202601031600")
+    fetch("data_exact_polygons.json?v=202601031700")
         .then(function(r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
             return r.json();
         })
         .then(function(data) {
-            console.log("완전일치 데이터 수신:", data.length);
-            console.log("완전일치 폴리곤 로드 완료:", data.length);
+            console.log("완전일치 데이터 로드 완료:", data.length);
             data.forEach(function(d) {
-                if (!d.polygon || d.polygon.length < 3) return;
-                var path = d.polygon.map(function(c) {
-                    return new kakao.maps.LatLng(c[1], c[0]);
-                });
-                var poly = new kakao.maps.Polygon({
-                    path: path,
-                    strokeWeight: 5,
-                    strokeColor: '#10b981',
-                    strokeOpacity: 1,
-                    fillColor: '#10b981',
-                    fillOpacity: 0.65
-                });
-                kakao.maps.event.addListener(poly, 'mouseover', function() {
-                    poly.setOptions({ fillOpacity: 0.85, strokeWeight: 7 });
-                });
-                kakao.maps.event.addListener(poly, 'mouseout', function() {
-                    poly.setOptions({ fillOpacity: 0.65, strokeWeight: 5 });
-                });
-                kakao.maps.event.addListener(poly, 'click', function(mouseEvent) {
-                    var content = '<div style="padding:16px;background:#1f2937;color:#fff;border-radius:12px;font-size:13px;max-width:400px;border:3px solid #10b981;box-shadow:0 8px 30px rgba(0,0,0,0.6)">' +
-                        '<div style="font-weight:700;color:#10b981;margin-bottom:12px;font-size:17px;border-bottom:2px solid #374151;padding-bottom:10px">✅ 완전일치 경매물건</div>' +
-                        '<div style="margin-bottom:12px;font-weight:600;font-size:14px">' + (d.address || '-') + '</div>' +
-                        '<table style="width:100%;font-size:13px;color:#e5e7eb">' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af;width:80px">사건번호</td><td style="padding:6px 0;font-weight:500">' + (d.case_no || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">매각일</td><td style="padding:6px 0">' + (d.date || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">종류</td><td style="padding:6px 0">' + (d.type || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">관련사업</td><td style="padding:6px 0;word-break:break-all">' + (d.project || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">용도</td><td style="padding:6px 0">' + (d.usage || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">면적</td><td style="padding:6px 0">' + (d.area || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">감정가</td><td style="padding:6px 0;color:#fbbf24;font-weight:700;font-size:14px">' + (d.appraisal && d.appraisal !== 'nan' ? Number(d.appraisal).toLocaleString() + '원' : '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">최저가</td><td style="padding:6px 0;color:#ef4444;font-weight:700;font-size:14px">' + (d.min_price && d.min_price !== 'nan' ? Number(d.min_price).toLocaleString() + '원' : '-') + '</td></tr>' +
-                        '</table></div>';
-                    var overlay = new kakao.maps.CustomOverlay({ content: content, position: mouseEvent.latLng, yAnchor: 1.2 });
-                    overlay.setMap(map);
-                    setTimeout(function() { overlay.setMap(null); }, 12000);
-                });
-                // 마커도 함께 추가 (축소해도 보이게)
+                if (!d.lat || !d.lng) return;
+                // 마커 생성 (토지목록좌표 기반 - 사업지구 안에 표시됨)
+                var markerImage = new kakao.maps.MarkerImage(
+                    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+                    new kakao.maps.Size(30, 35),
+                    { offset: new kakao.maps.Point(15, 35) }
+                );
                 var marker = new kakao.maps.Marker({
                     position: new kakao.maps.LatLng(d.lat, d.lng),
+                    image: markerImage,
                     clickable: true
                 });
                 kakao.maps.event.addListener(marker, 'click', function() {
                     var content = '<div style="padding:16px;background:#1f2937;color:#fff;border-radius:12px;font-size:13px;max-width:400px;border:3px solid #10b981;box-shadow:0 8px 30px rgba(0,0,0,0.6)">' +
-                        '<div style="font-weight:700;color:#10b981;margin-bottom:12px;font-size:17px;border-bottom:2px solid #374151;padding-bottom:10px">✅ 완전일치 경매물건</div>' +
-                        '<div style="margin-bottom:12px;font-weight:600;font-size:14px">' + (d.address || '-') + '</div>' +
+                        '<div style="font-weight:700;color:#10b981;margin-bottom:12px;font-size:17px;border-bottom:2px solid #374151;padding-bottom:10px">✅ 완전일치 경공매물건</div>' +
+                        '<div style="margin-bottom:8px;font-weight:600;font-size:14px;color:#fbbf24">경공매주소</div>' +
+                        '<div style="margin-bottom:12px;font-size:13px">' + (d.address || '-') + '</div>' +
+                        '<div style="margin-bottom:8px;font-weight:600;font-size:14px;color:#60a5fa">보상토지주소</div>' +
+                        '<div style="margin-bottom:12px;font-size:13px">' + (d.comp_address || '-') + '</div>' +
                         '<table style="width:100%;font-size:13px;color:#e5e7eb">' +
                         '<tr><td style="padding:6px 0;color:#9ca3af;width:80px">사건번호</td><td style="padding:6px 0;font-weight:500">' + (d.case_no || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">매각일</td><td style="padding:6px 0">' + (d.date || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">종류</td><td style="padding:6px 0">' + (d.type || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">관련사업</td><td style="padding:6px 0;word-break:break-all">' + (d.project || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">용도</td><td style="padding:6px 0">' + (d.usage || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">면적</td><td style="padding:6px 0">' + (d.area || '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">감정가</td><td style="padding:6px 0;color:#fbbf24;font-weight:700;font-size:14px">' + (d.appraisal && d.appraisal !== 'nan' ? Number(d.appraisal).toLocaleString() + '원' : '-') + '</td></tr>' +
-                        '<tr><td style="padding:6px 0;color:#9ca3af">최저가</td><td style="padding:6px 0;color:#ef4444;font-weight:700;font-size:14px">' + (d.min_price && d.min_price !== 'nan' ? Number(d.min_price).toLocaleString() + '원' : '-') + '</td></tr>' +
+                        '<tr><td style="padding:6px 0;color:#9ca3af">구분</td><td style="padding:6px 0">' + (d.category || '-') + '</td></tr>' +
+                        '<tr><td style="padding:6px 0;color:#9ca3af">관련사업</td><td style="padding:6px 0;word-break:break-all;font-size:11px">' + (d.project || '-') + '</td></tr>' +
+                        '<tr><td style="padding:6px 0;color:#9ca3af">감정가</td><td style="padding:6px 0;color:#fbbf24;font-weight:700;font-size:14px">' + (d.appraisal ? Number(d.appraisal).toLocaleString() + '원' : '-') + '</td></tr>' +
+                        '<tr><td style="padding:6px 0;color:#9ca3af">최저가</td><td style="padding:6px 0;color:#ef4444;font-weight:700;font-size:14px">' + (d.min_price ? Number(d.min_price).toLocaleString() + '원' : '-') + '</td></tr>' +
                         '</table></div>';
                     var overlay = new kakao.maps.CustomOverlay({ content: content, position: marker.getPosition(), yAnchor: 1.2 });
                     overlay.setMap(map);
                     setTimeout(function() { overlay.setMap(null); }, 12000);
                 });
                 markers.exact.push(marker);
-                polygons.exact.push(poly);
             });
             exactLoaded = true;
             document.getElementById('count-exact').textContent = data.length.toLocaleString();
@@ -2196,10 +2165,9 @@ function toggleLayer(category) {
     var show = chk.checked;
     console.log('toggleLayer:', category, 'show:', show, 'markers:', markers[category] ? markers[category].length : 0);
 
-    // 완전일치 lazy loading
+    // 완전일치 lazy loading (마커만 사용 - 토지목록좌표 기반)
     if (category === 'exact' && show && !exactLoaded) {
         loadExactMatchData(function() {
-            polygons.exact.forEach(function(p) { p.setMap(map); });
             markers.exact.forEach(function(m) { m.setMap(map); });
         });
         return;
@@ -2221,9 +2189,8 @@ function toggleLayer(category) {
         return;
     }
 
-    // 완전일치/500m/1km는 polygons + markers 함께 사용
+    // 완전일치: 마커만 사용 (토지목록좌표 기반으로 사업지구 안에 표시)
     if (category === 'exact' && exactLoaded) {
-        polygons.exact.forEach(function(p) { p.setMap(show ? map : null); });
         markers.exact.forEach(function(m) { m.setMap(show ? map : null); });
         return;
     }
@@ -2704,9 +2671,8 @@ function initRoadview() {
             initRoadview();
             initSearchData();
             loadFavorites();
-            // 완전일치 데이터 자동 로드 (기본 체크됨)
+            // 완전일치 데이터 자동 로드 (기본 체크됨 - 마커만 사용)
             loadExactMatchData(function() {
-                polygons.exact.forEach(function(p) { p.setMap(map); });
                 markers.exact.forEach(function(m) { m.setMap(map); });
             });
         });
