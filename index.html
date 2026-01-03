@@ -1848,6 +1848,11 @@ function init() {
         level: 13
     });
 
+    // 지도 클릭 시 위치 저장 (빠른 줌용)
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+        lastClickPosition = mouseEvent.latLng;
+    });
+
     // 철도
     DATA_rail.forEach(function(d) {
         var m = createMarker(d.lat, d.lng, COLORS.railway, 'rail');
@@ -2223,12 +2228,20 @@ function toggleCadastral() {
 function zoomIn() { map.setLevel(map.getLevel() - 1); }
 function zoomOut() { map.setLevel(map.getLevel() + 1); }
 
-// 빠른 줌 (한 번에 특정 레벨로 이동)
+// 마지막 클릭 위치 저장
+var lastClickPosition = null;
+
+// 빠른 줌 (마지막 클릭 위치 기준으로 확대/축소)
 function quickZoom(type) {
-    if (type === 'in') {
-        map.setLevel(6);  // 확대: 레벨 6 (약 1km)
+    var targetLevel = (type === 'in') ? 6 : 11;
+
+    if (lastClickPosition) {
+        // 마지막 클릭 위치로 이동하면서 줌
+        map.setCenter(lastClickPosition);
+        map.setLevel(targetLevel);
     } else {
-        map.setLevel(11); // 축소: 레벨 11 (약 16km)
+        // 클릭한 적 없으면 현재 중심 유지
+        map.setLevel(targetLevel);
     }
 }
 
