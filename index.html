@@ -620,7 +620,7 @@
                 <div class="toggle"></div>
                 <div class="layer-color" style="background: #f97316; color: #f97316;"></div>
                 <span class="layer-name">토지목록</span>
-                <span class="layer-count">380</span>
+                <span class="layer-count">388</span>
             </label>
             <label class="layer-item">
                 <input type="checkbox" id="layer-exact" checked onchange="toggleLayer('exact')">
@@ -1899,7 +1899,7 @@ function init() {
 
 
     // 토지보상구역 폴리곤 데이터 로드 및 렌더링
-    fetch("data_proj.json?v=202601041216")
+    fetch("data_proj.json?v=202601041237")
         .then(function(r) { return r.json(); })
         .then(function(projData) {
             console.log("폴리곤 데이터 로드 완료:", projData.length);
