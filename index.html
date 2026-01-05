@@ -648,6 +648,23 @@
             </label>
         </div>
         <div class="layer-group">
+            <div class="layer-title">경공매</div>
+            <label class="layer-item">
+                <input type="checkbox" id="layer-auction" onchange="toggleLayer('auction')">
+                <div class="toggle"></div>
+                <div class="layer-color" style="background: #6366f1; color: #6366f1;"></div>
+                <span class="layer-name">경매</span>
+                <span class="layer-count" id="count-auction" style="background:#6366f1;color:#fff">0</span>
+            </label>
+            <label class="layer-item">
+                <input type="checkbox" id="layer-public" onchange="toggleLayer('public')">
+                <div class="toggle"></div>
+                <div class="layer-color" style="background: #a855f7; color: #a855f7;"></div>
+                <span class="layer-name">공매</span>
+                <span class="layer-count" id="count-public" style="background:#a855f7;color:#fff">0</span>
+            </label>
+        </div>
+        <div class="layer-group">
             <div class="layer-title">빠른 줌</div>
             <div style="display:flex;gap:8px;padding:4px 0;">
                 <button onclick="quickZoom('in')" style="flex:1;padding:10px 0;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;">🔍 확대</button>
@@ -2153,6 +2170,22 @@ function toggleLayer(category) {
     if (category === 'nearby1km' && show && !nearby1kmLoaded) {
         loadNearby1kmData(function() {
             polygons.nearby1km.forEach(function(p) { p.setMap(map); });
+        });
+        return;
+    }
+    // 경매 lazy loading
+    if (category === 'auction' && show && !auctionLoaded) {
+        loadAuctionData(function() {
+            if (clusterers.auction) clusterers.auction.setMap(map);
+            document.getElementById('count-auction').textContent = markers.auction.length.toLocaleString();
+        });
+        return;
+    }
+    // 공매 lazy loading
+    if (category === 'public' && show && !publicLoaded) {
+        loadPublicData(function() {
+            if (clusterers.public) clusterers.public.setMap(map);
+            document.getElementById('count-public').textContent = markers.public.length.toLocaleString();
         });
         return;
     }
