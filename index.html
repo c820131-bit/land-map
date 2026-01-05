@@ -1503,7 +1503,7 @@ function loadExactMatchData(callback) {
     if (exactLoaded) { if(callback) callback(); return; }
     console.log("완전일치 데이터 로딩 (토지목록좌표 기반)...");
 
-    fetch("data_exact_polygons.json?v=202601051030")
+    fetch("data_exact_polygons.json?v=202601052040")
         .then(function(r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
             return r.json();
@@ -1561,7 +1561,7 @@ function loadNearby500Data(callback) {
     if (nearby500Loaded) { if(callback) callback(); return; }
     console.log("500m 이내 폴리곤 데이터 로딩...");
 
-    fetch("data_nearby500_polygons.json?v=202601051030")
+    fetch("data_nearby500_polygons.json?v=202601052040")
         .then(function(r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
             return r.json();
@@ -1623,7 +1623,7 @@ function loadNearby1kmData(callback) {
     if (nearby1kmLoaded) { if(callback) callback(); return; }
     console.log("1km 이내 폴리곤 데이터 로딩...");
 
-    fetch("data_nearby1km_polygons.json?v=202601051030")
+    fetch("data_nearby1km_polygons.json?v=202601052040")
         .then(function(r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
             return r.json();
