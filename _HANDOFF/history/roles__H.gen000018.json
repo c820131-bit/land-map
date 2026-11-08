@@ -1,0 +1,151 @@
+{
+  "dependencies": [],
+  "duties": "공통 인계 저장소·복원 도구·시험 (A~E 작업 침범 금지)",
+  "generation": 18,
+  "last_checkpoint": {
+    "at": "2026-11-08T12:20:40.657133Z",
+    "files": {
+      "CLAUDE.md": "1ecce09b4cc93491a32aeeb42c8594996cbdb7ee9fd76bf3fe1104b4c7aca5f6",
+      "_HANDOFF/PROJECT_CHARTER.md": "86f251ab56bf684363ab2e1b7d09656a8aeccec58f52ff348a991d666aea2f89",
+      "_HANDOFF/README.md": "09eb18f24a27a14d7d7cefb5895b5e62e7fcf217403555bf7ae2e6021c855e4a",
+      "_HANDOFF/START_PROMPT.md": "99abf3f2eda5f05df69014112241e6c878d862eec140dba3e4f5a2fe437a8319",
+      "_HANDOFF/handoff.py": "92f96559b97326d92f2854a6769a4c6d67cede9f831b20d5a56221e87d5cb365",
+      "_HANDOFF/tests/test_handoff.py": "d095caa29b7e91af06f2073582203cbc6e87d125e5051847109aead3e1232e54"
+    },
+    "id": "CP-20261108-122040-a951",
+    "last_passed_candidate": null,
+    "latest_candidate": "H-TOOL-1",
+    "note": "",
+    "open_errors": [],
+    "session": "H-20261108-build",
+    "tasks": {
+      "H-01": "done",
+      "H-02": "done",
+      "H-03": "done",
+      "H-04": "todo",
+      "H-05": "blocked",
+      "H-06": "todo"
+    }
+  },
+  "last_passed_candidate": null,
+  "last_report": "2026-11-08 H 1차 보고: 인계 도구·시험 A~I(10/10)·보호 매니페스트 29건 완료. 저장소에는 A~E 실제 작업 폴더가 없고 사용자 PC 폴더는 접근 불가하여 A~E 상태는 미입력. 실제 새 창 시험(H-04)과 로컬 상태 가져오기(H-05) 남음.",
+  "latest_candidate": "H-TOOL-2",
+  "name": "인계 체계",
+  "resume": {
+    "command": "python _HANDOFF/tests/test_handoff.py && python _HANDOFF/handoff.py protect verify",
+    "do_not_touch": [
+      "index.html",
+      "data_*.json",
+      "inline_data.js",
+      "netlify/",
+      "_HANDOFF/state/decisions.json"
+    ],
+    "env": "Python 3.8+ (표준 라이브러리만), 저장소 루트에서 실행",
+    "inputs": [],
+    "notes": [
+      "독립 프로세스 검증 완료 / 실제 새 Claude 창 검증 대기(H-04)",
+      "H-06 은 사용자 승인 전 자동 실행 금지"
+    ]
+  },
+  "reviewer": false,
+  "role": "H",
+  "schema": 1,
+  "tasks": [
+    {
+      "command": "",
+      "completed_at": "2026-11-08T12:20:31.294422Z",
+      "completed_by": "H-20261108-build",
+      "created_at": "2026-11-08T12:20:30.811384Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "evidence": "handoff.py 작성, smoke: init/protect snapshot(29건)/takeover C/release 정상",
+      "evidence_files": {
+        "_HANDOFF/handoff.py": "92f96559b97326d92f2854a6769a4c6d67cede9f831b20d5a56221e87d5cb365"
+      },
+      "id": "H-01",
+      "priority": 1,
+      "requires_user_approval": false,
+      "started_at": "2026-11-08T12:20:31.141773Z",
+      "started_by": "H-20261108-build",
+      "status": "done",
+      "title": "공통 인계 저장소·handoff.py 구축(임대·세대·원자교체·이력·후보·오류·결정·인계·체크포인트·보호)"
+    },
+    {
+      "command": "python _HANDOFF/tests/test_handoff.py",
+      "completed_at": "2026-11-08T12:20:39.545991Z",
+      "completed_by": "H-20261108-build",
+      "created_at": "2026-11-08T12:20:30.868276Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "evidence": "합계: 10/10 통과  (방식: 매 명령 독립 파이썬 프로세스 + 독립 세션 ID, 임시 프로젝트 폴더)",
+      "evidence_files": {
+        "_HANDOFF/tests/last_result.json": "d7d9442f2df9950c0d5edfbd08c6056896ade4d6cc872b86c709e88d4ffe4db7",
+        "_HANDOFF/tests/test_handoff.py": "d095caa29b7e91af06f2073582203cbc6e87d125e5051847109aead3e1232e54"
+      },
+      "id": "H-02",
+      "priority": 2,
+      "requires_user_approval": false,
+      "started_at": "2026-11-08T12:20:31.188693Z",
+      "started_by": "H-20261108-build",
+      "status": "done",
+      "title": "독립 프로세스 시험 A~I 작성·통과"
+    },
+    {
+      "command": "python _HANDOFF/handoff.py protect verify",
+      "completed_at": "2026-11-08T12:20:39.713970Z",
+      "completed_by": "H-20261108-build",
+      "created_at": "2026-11-08T12:20:30.922769Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "evidence": "보호 파일 검증: 일치 29 / 변경 0 / 누락 0",
+      "id": "H-03",
+      "priority": 3,
+      "requires_user_approval": false,
+      "started_at": "2026-11-08T12:20:31.240881Z",
+      "started_by": "H-20261108-build",
+      "status": "done",
+      "title": "운영 파일 보호 매니페스트 채취·검증(29개 파일)"
+    },
+    {
+      "command": "python _HANDOFF/handoff.py --session <새창ID> takeover H --json",
+      "created_at": "2026-11-08T12:20:30.977351Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "id": "H-04",
+      "priority": 4,
+      "requires_user_approval": false,
+      "status": "todo",
+      "title": "실제 사용자 새 Claude 창에서 'INVESTMENT MAP H 인계받고 이어서 작업해' 시험(브리핑 복원·중복방지 확인)"
+    },
+    {
+      "blocked_reason": "클라우드 세션에서 사용자 PC 폴더 접근 불가(Remote Control 공유 폴더 없음). 사용자 PC 에서 이 저장소를 clone 한 뒤 실행 필요",
+      "command": "",
+      "created_at": "2026-11-08T12:20:31.036474Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "id": "H-05",
+      "priority": 5,
+      "requires_user_approval": false,
+      "status": "blocked",
+      "title": "C:\\클로드\\보상개발지도 의 실제 A~E 체크포인트·후보·SHA·DECISIONS 를 _HANDOFF 상태로 가져오기"
+    },
+    {
+      "command": "",
+      "created_at": "2026-11-08T12:20:31.091926Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "id": "H-06",
+      "priority": 9,
+      "requires_user_approval": true,
+      "status": "todo",
+      "title": "업무관리 브라우저와 인계 기능 연결(기존 동작 독립 회귀 확보 후)"
+    }
+  ],
+  "updated_at": "2026-11-08T12:21:25.711787Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 1821,
+    "session": "H-20261108-build"
+  },
+  "workspace": "_HANDOFF"
+}

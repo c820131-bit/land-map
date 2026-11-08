@@ -1,0 +1,28 @@
+{
+  "dependencies": [],
+  "duties": "독립 검수·공식 원문 대조·보상사례 및 투자분석",
+  "generation": 1,
+  "last_checkpoint": null,
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "독립 검수",
+  "resume": {
+    "command": "",
+    "do_not_touch": [],
+    "env": "",
+    "inputs": [],
+    "notes": []
+  },
+  "reviewer": true,
+  "role": "D",
+  "schema": 1,
+  "tasks": [],
+  "updated_at": "2026-11-08T12:13:37.444329Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 346,
+    "session": "smoke"
+  },
+  "workspace": ""
+}

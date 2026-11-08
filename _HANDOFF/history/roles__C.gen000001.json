@@ -1,0 +1,28 @@
+{
+  "dependencies": [],
+  "duties": "경매물건 연결·지도·API·보상사업 패널·공식 원문·거리 검색",
+  "generation": 1,
+  "last_checkpoint": null,
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "지도·연결·패널",
+  "resume": {
+    "command": "",
+    "do_not_touch": [],
+    "env": "",
+    "inputs": [],
+    "notes": []
+  },
+  "reviewer": false,
+  "role": "C",
+  "schema": 1,
+  "tasks": [],
+  "updated_at": "2026-11-08T12:13:37.441828Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 346,
+    "session": "smoke"
+  },
+  "workspace": ""
+}

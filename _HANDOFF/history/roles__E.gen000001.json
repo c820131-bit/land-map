@@ -1,0 +1,28 @@
+{
+  "dependencies": [],
+  "duties": "업무관리 브라우저 개선, 별도 검증 또는 명시된 담당 업무",
+  "generation": 1,
+  "last_checkpoint": null,
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "업무관리 브라우저·기타",
+  "resume": {
+    "command": "",
+    "do_not_touch": [],
+    "env": "",
+    "inputs": [],
+    "notes": []
+  },
+  "reviewer": false,
+  "role": "E",
+  "schema": 1,
+  "tasks": [],
+  "updated_at": "2026-11-08T12:13:37.446429Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 346,
+    "session": "smoke"
+  },
+  "workspace": ""
+}

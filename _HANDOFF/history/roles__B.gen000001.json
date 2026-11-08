@@ -1,0 +1,28 @@
+{
+  "dependencies": [],
+  "duties": "PDF·HWP·HWPX·XLSX 토지조서 판독·지번·권리·면적·원문 위치",
+  "generation": 1,
+  "last_checkpoint": null,
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "토지조서 판독",
+  "resume": {
+    "command": "",
+    "do_not_touch": [],
+    "env": "",
+    "inputs": [],
+    "notes": []
+  },
+  "reviewer": false,
+  "role": "B",
+  "schema": 1,
+  "tasks": [],
+  "updated_at": "2026-11-08T12:13:37.440133Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 346,
+    "session": "smoke"
+  },
+  "workspace": ""
+}

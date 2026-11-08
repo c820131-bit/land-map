@@ -1,0 +1,40 @@
+{
+  "dependencies": [],
+  "duties": "공통 인계 저장소·복원 도구·시험 (A~E 작업 침범 금지)",
+  "generation": 3,
+  "last_checkpoint": null,
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "인계 체계",
+  "resume": {
+    "command": "",
+    "do_not_touch": [],
+    "env": "",
+    "inputs": [],
+    "notes": []
+  },
+  "reviewer": false,
+  "role": "H",
+  "schema": 1,
+  "tasks": [
+    {
+      "command": "",
+      "created_at": "2026-11-08T12:20:30.811384Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "id": "H-01",
+      "priority": 1,
+      "requires_user_approval": false,
+      "status": "todo",
+      "title": "공통 인계 저장소·handoff.py 구축(임대·세대·원자교체·이력·후보·오류·결정·인계·체크포인트·보호)"
+    }
+  ],
+  "updated_at": "2026-11-08T12:20:30.811398Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 1403,
+    "session": "H-20261108-build"
+  },
+  "workspace": "_HANDOFF"
+}

@@ -1,0 +1,30 @@
+{
+  "generation": 2,
+  "items": {
+    "ERR-H-001": {
+      "actual": "두 번째 takeover 종료코드 0 (prev_state=dead)",
+      "affects": [],
+      "basis": "시험 E(동시 인계 종료코드 [0,0]) / 시험 F(활성 임대 재시도 기대 3, 실제 0)",
+      "cause": "Claude 창은 장기 프로세스가 아니므로 CLI PID 는 즉시 사라짐. pid_alive 를 무조건 적용한 설계 오류",
+      "expected": "활성 임대 중 두 번째 takeover 종료코드 3",
+      "fix_files": {},
+      "found_at": "2026-11-08T12:20:39.817950Z",
+      "found_by": "H-20261108-build",
+      "id": "ERR-H-001",
+      "owner": "H",
+      "repro": "python _HANDOFF/tests/test_handoff.py (수정 전 handoff.py)",
+      "resume_condition": "",
+      "status": "open",
+      "title": "임대 생존 판정에 CLI 호출 PID 사용 → 명령 종료 직후 'dead' 판정되어 타 세션이 임대 회수",
+      "unresolved_reason": "",
+      "verification": ""
+    }
+  },
+  "schema": 1,
+  "updated_at": "2026-11-08T12:20:39.817959Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 1596,
+    "session": "H-20261108-build"
+  }
+}

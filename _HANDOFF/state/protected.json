@@ -1,0 +1,130 @@
+{
+  "base": "/home/user/land-map",
+  "generation": 2,
+  "items": {
+    "data_auction.json": {
+      "sha256": "422093a3d29056821cda67d203a2a819c9aa2ec829d85cfeb77cd02919b1d8f9",
+      "size": 14770603
+    },
+    "data_exact_match.json": {
+      "sha256": "d23a2075ca2653d3fd38d05f50b57da926bcd23fff5c3cb27eee23bd96334420",
+      "size": 60509
+    },
+    "data_exact_polygons.json": {
+      "sha256": "bb6073288fe90a88c64ca3d19f2e02954a4e66086a78505d133341c08a59f926",
+      "size": 35380
+    },
+    "data_general_auction.json": {
+      "sha256": "c73f3e4d1dbf0a020a708f27d6c66f6bca74284a1f4ea071f81a31ed1943cf4b",
+      "size": 20111400
+    },
+    "data_general_public.json": {
+      "sha256": "4ac5b8cf612ee8a6bf518e44fc712c99b5ce479ef1d51313ac395c1f24de884c",
+      "size": 1842727
+    },
+    "data_inside.json": {
+      "sha256": "19e57920b6a8041166e35ddccc434bb0ec55934bb39ee7b06ddd98c8b1fa4e71",
+      "size": 13374
+    },
+    "data_large_project_markers.json": {
+      "sha256": "b1f58505fe15b6a489c9c2db37a435f5ff3311364bac4c02bce77e694d2fb5ed",
+      "size": 9436094
+    },
+    "data_match_confirm.json": {
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "size": 2
+    },
+    "data_match_exact.json": {
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "size": 2
+    },
+    "data_match_nearby500.json": {
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "size": 2
+    },
+    "data_nearby1km_polygons.json": {
+      "sha256": "c7ed876d6d05e3cb383bb925537e799387985202ee39178ccf5ca8cc83fdf6a2",
+      "size": 1688460
+    },
+    "data_nearby500_polygons.json": {
+      "sha256": "e163165e185c13eb57a73f8e78512afd86adf2836046dec37541789235d91b18",
+      "size": 1239477
+    },
+    "data_nearby_1km.json": {
+      "sha256": "3c866fc96712bf10e62f4b0925b31248578544bf6f615702760c37aa7389599c",
+      "size": 1034314
+    },
+    "data_nearby_500m.json": {
+      "sha256": "c010e552cb54944dc16557859f5605f7a2c337ebf59e7059ec154354efc2b3b3",
+      "size": 998383
+    },
+    "data_need_check.json": {
+      "sha256": "7d0d305800587b380a480e9534e1fbca07db8929e3f1c93f11ba186e572813a5",
+      "size": 6627
+    },
+    "data_proj.json": {
+      "sha256": "7c9ab5237f7b8f2d13196252fee3bb164bd5b5af844336a56b2fae64cba0e2b0",
+      "size": 274441
+    },
+    "data_project_markers.json": {
+      "sha256": "966e83a2b53bac51734dfe2cc02bb953466a6d4691bc830751c2577a2353df1a",
+      "size": 37488
+    },
+    "data_public.json": {
+      "sha256": "09c5a6898608408f000a9b1a1e15c64c63369a09ad05315b0426ab3c3c62e956",
+      "size": 1607738
+    },
+    "diagnose.html": {
+      "sha256": "43608e559aceb5df9b577e83d66931cd6fa857159a9a5c89313c54bb4cb4d59b",
+      "size": 10944
+    },
+    "index.html": {
+      "sha256": "beb25485ff919ca099ebf372d3c027e5eeeb85cb2474f071f42f139c27094622",
+      "size": 28340
+    },
+    "index.html.backup": {
+      "sha256": "6ac9c91c3c17a536f5cc810415fb3570776ddbd8a5b1627f4c6334fc8c1b2808",
+      "size": 1438864
+    },
+    "inline_data.js": {
+      "sha256": "8b896efb9fe544a5c034f952c08bd3fd10fff9d78c6bd0da53d86d42dfe0242a",
+      "size": 1058456
+    },
+    "netlify.toml": {
+      "sha256": "6f107d1098698653ce36480ed6e168eb0e19ff96761fcf57661d514f3fd46bf8",
+      "size": 142
+    },
+    "netlify/functions/vworld.js": {
+      "sha256": "15a6cdb5580224cfe13dc9db97ad1192f7b9a270cbf73cd917433582443d5406",
+      "size": 894
+    },
+    "old_working.html": {
+      "sha256": "7ccd1f27df4ca520e8147af0a1b89866f31162c1cc0255c3f0dca568e052543c",
+      "size": 11885868
+    },
+    "roadview_test.html": {
+      "sha256": "7c0e734a20531833ca4a8c003a91efa1c9c074eb291b2f5278d11899f4c0acb6",
+      "size": 3270
+    },
+    "search_test.html": {
+      "sha256": "a11c88b2d7ef7c0908b81167a4c94e2a2c205f81bf8b5de2176003cbe80122c0",
+      "size": 4408
+    },
+    "test_simple.html": {
+      "sha256": "4fcdddd67df3d4d46048af376d8ed722a5bad098a08df9047eeab0c321db06bc",
+      "size": 7214
+    },
+    "투자지도백업25.12.25.html": {
+      "sha256": "a7daca6565e8a74a1434d016bc4e497dfb281ccb64c1041e1ae78ac0300c72fa",
+      "size": 1444634
+    }
+  },
+  "label": "baseline-2026-11-08",
+  "schema": 1,
+  "updated_at": "2026-11-08T12:13:37.605778Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 358,
+    "session": "smoke"
+  }
+}

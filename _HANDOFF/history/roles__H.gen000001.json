@@ -1,0 +1,28 @@
+{
+  "dependencies": [],
+  "duties": "공통 인계 저장소·복원 도구·시험 (A~E 작업 침범 금지)",
+  "generation": 1,
+  "last_checkpoint": null,
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "인계 체계",
+  "resume": {
+    "command": "",
+    "do_not_touch": [],
+    "env": "",
+    "inputs": [],
+    "notes": []
+  },
+  "reviewer": false,
+  "role": "H",
+  "schema": 1,
+  "tasks": [],
+  "updated_at": "2026-11-08T12:13:37.450259Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 346,
+    "session": "smoke"
+  },
+  "workspace": ""
+}

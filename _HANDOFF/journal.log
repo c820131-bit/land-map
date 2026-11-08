@@ -1,0 +1,44 @@
+{"ts": "2026-11-08T12:13:37.451808Z", "session": "smoke", "pid": 346, "host": "vm", "kind": "init"}
+{"ts": "2026-11-08T12:13:37.608721Z", "session": "smoke", "pid": 358, "host": "vm", "kind": "protect_snapshot", "count": 29, "label": "baseline-2026-11-08"}
+{"ts": "2026-11-08T12:13:37.820519Z", "session": "smoke", "pid": 362, "host": "vm", "kind": "lease_acquired", "role": "C", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:13:37.868027Z", "session": "smoke", "pid": 365, "host": "vm", "kind": "lease_released", "role": "C", "previous_state": "mine"}
+{"ts": "2026-11-08T12:20:30.694313Z", "session": "H-20261108-build", "pid": 1399, "host": "vm", "kind": "lease_acquired", "role": "H", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:20:30.814058Z", "session": "H-20261108-build", "pid": 1403, "host": "vm", "kind": "task_add", "role": "H", "task": "H-01"}
+{"ts": "2026-11-08T12:20:30.870685Z", "session": "H-20261108-build", "pid": 1405, "host": "vm", "kind": "task_add", "role": "H", "task": "H-02"}
+{"ts": "2026-11-08T12:20:30.925189Z", "session": "H-20261108-build", "pid": 1407, "host": "vm", "kind": "task_add", "role": "H", "task": "H-03"}
+{"ts": "2026-11-08T12:20:30.979872Z", "session": "H-20261108-build", "pid": 1409, "host": "vm", "kind": "task_add", "role": "H", "task": "H-04"}
+{"ts": "2026-11-08T12:20:31.039676Z", "session": "H-20261108-build", "pid": 1411, "host": "vm", "kind": "task_add", "role": "H", "task": "H-05"}
+{"ts": "2026-11-08T12:20:31.095247Z", "session": "H-20261108-build", "pid": 1413, "host": "vm", "kind": "task_add", "role": "H", "task": "H-06"}
+{"ts": "2026-11-08T12:20:31.145533Z", "session": "H-20261108-build", "pid": 1415, "host": "vm", "kind": "task_start", "role": "H", "task": "H-01"}
+{"ts": "2026-11-08T12:20:31.191388Z", "session": "H-20261108-build", "pid": 1417, "host": "vm", "kind": "task_start", "role": "H", "task": "H-02"}
+{"ts": "2026-11-08T12:20:31.243318Z", "session": "H-20261108-build", "pid": 1421, "host": "vm", "kind": "task_start", "role": "H", "task": "H-03"}
+{"ts": "2026-11-08T12:20:31.297022Z", "session": "H-20261108-build", "pid": 1424, "host": "vm", "kind": "task_complete", "role": "H", "task": "H-01"}
+{"ts": "2026-11-08T12:20:39.549253Z", "session": "H-20261108-build", "pid": 1589, "host": "vm", "kind": "task_complete", "role": "H", "task": "H-02"}
+{"ts": "2026-11-08T12:20:39.716198Z", "session": "H-20261108-build", "pid": 1592, "host": "vm", "kind": "task_complete", "role": "H", "task": "H-03"}
+{"ts": "2026-11-08T12:20:39.820018Z", "session": "H-20261108-build", "pid": 1596, "host": "vm", "kind": "error_add", "error": "ERR-H-001", "owner": "H"}
+{"ts": "2026-11-08T12:20:39.935346Z", "session": "H-20261108-build", "pid": 1600, "host": "vm", "kind": "error_add", "error": "ERR-H-002", "owner": "H"}
+{"ts": "2026-11-08T12:20:40.047002Z", "session": "H-20261108-build", "pid": 1604, "host": "vm", "kind": "candidate_register", "role": "H", "candidate": "H-TOOL-1", "sha256": "92f96559b97326d92f2854a6769a4c6d67cede9f831b20d5a56221e87d5cb365"}
+{"ts": "2026-11-08T12:20:40.146928Z", "session": "H-20261108-build", "pid": 1609, "host": "vm", "kind": "lease_acquired", "role": "A", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:20:40.198953Z", "session": "H-20261108-build", "pid": 1611, "host": "vm", "kind": "checkpoint", "role": "A", "checkpoint": "CP-20261108-122040-96a4"}
+{"ts": "2026-11-08T12:20:40.199340Z", "session": "H-20261108-build", "pid": 1611, "host": "vm", "kind": "lease_released", "role": "A", "previous_state": "mine"}
+{"ts": "2026-11-08T12:20:40.250604Z", "session": "H-20261108-build", "pid": 1613, "host": "vm", "kind": "lease_acquired", "role": "B", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:20:40.294943Z", "session": "H-20261108-build", "pid": 1615, "host": "vm", "kind": "checkpoint", "role": "B", "checkpoint": "CP-20261108-122040-027c"}
+{"ts": "2026-11-08T12:20:40.295495Z", "session": "H-20261108-build", "pid": 1615, "host": "vm", "kind": "lease_released", "role": "B", "previous_state": "mine"}
+{"ts": "2026-11-08T12:20:40.346278Z", "session": "H-20261108-build", "pid": 1617, "host": "vm", "kind": "lease_acquired", "role": "C", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:20:40.394760Z", "session": "H-20261108-build", "pid": 1619, "host": "vm", "kind": "checkpoint", "role": "C", "checkpoint": "CP-20261108-122040-b85f"}
+{"ts": "2026-11-08T12:20:40.395214Z", "session": "H-20261108-build", "pid": 1619, "host": "vm", "kind": "lease_released", "role": "C", "previous_state": "mine"}
+{"ts": "2026-11-08T12:20:40.452892Z", "session": "H-20261108-build", "pid": 1621, "host": "vm", "kind": "lease_acquired", "role": "D", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:20:40.505325Z", "session": "H-20261108-build", "pid": 1623, "host": "vm", "kind": "checkpoint", "role": "D", "checkpoint": "CP-20261108-122040-0754"}
+{"ts": "2026-11-08T12:20:40.505899Z", "session": "H-20261108-build", "pid": 1623, "host": "vm", "kind": "lease_released", "role": "D", "previous_state": "mine"}
+{"ts": "2026-11-08T12:20:40.551738Z", "session": "H-20261108-build", "pid": 1625, "host": "vm", "kind": "lease_acquired", "role": "E", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:20:40.605800Z", "session": "H-20261108-build", "pid": 1627, "host": "vm", "kind": "checkpoint", "role": "E", "checkpoint": "CP-20261108-122040-ced8"}
+{"ts": "2026-11-08T12:20:40.606196Z", "session": "H-20261108-build", "pid": 1627, "host": "vm", "kind": "lease_released", "role": "E", "previous_state": "mine"}
+{"ts": "2026-11-08T12:20:40.659310Z", "session": "H-20261108-build", "pid": 1629, "host": "vm", "kind": "checkpoint", "role": "H", "checkpoint": "CP-20261108-122040-a951"}
+{"ts": "2026-11-08T12:20:40.659694Z", "session": "H-20261108-build", "pid": 1629, "host": "vm", "kind": "lease_released", "role": "H", "previous_state": "mine"}
+{"ts": "2026-11-08T12:20:40.709717Z", "session": "H-새창-검증", "pid": 1631, "host": "vm", "kind": "lease_acquired", "role": "H", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:20:40.759884Z", "session": "H-새창-검증", "pid": 1634, "host": "vm", "kind": "lease_released", "role": "H", "previous_state": "mine"}
+{"ts": "2026-11-08T12:21:25.661602Z", "session": "H-20261108-build", "pid": 1819, "host": "vm", "kind": "lease_acquired", "role": "H", "previous_state": "free", "forced": false, "reason": ""}
+{"ts": "2026-11-08T12:21:25.713415Z", "session": "H-20261108-build", "pid": 1821, "host": "vm", "kind": "candidate_register", "role": "H", "candidate": "H-TOOL-2", "sha256": "a531447a0cb391df0641cddba00fa0286db36f3657f114e76df9d16760fa7e16"}
+{"ts": "2026-11-08T12:21:25.823630Z", "session": "H-20261108-build", "pid": 1825, "host": "vm", "kind": "error_add", "error": "ERR-H-003", "owner": "H"}
+{"ts": "2026-11-08T12:21:25.931535Z", "session": "H-20261108-build", "pid": 1828, "host": "vm", "kind": "checkpoint", "role": "H", "checkpoint": "CP-20261108-122125-2b3e"}
+{"ts": "2026-11-08T12:21:25.931833Z", "session": "H-20261108-build", "pid": 1828, "host": "vm", "kind": "lease_released", "role": "H", "previous_state": "mine"}

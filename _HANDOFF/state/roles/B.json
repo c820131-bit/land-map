@@ -1,0 +1,45 @@
+{
+  "dependencies": [],
+  "duties": "PDF·HWP·HWPX·XLSX 토지조서 판독·지번·권리·면적·원문 위치",
+  "generation": 2,
+  "last_checkpoint": {
+    "at": "2026-11-08T12:20:40.292267Z",
+    "files": {},
+    "id": "CP-20261108-122040-027c",
+    "last_passed_candidate": null,
+    "latest_candidate": null,
+    "note": "H 가 저장소 초기화 시 기록. 실제 개발 상태 아님",
+    "open_errors": [],
+    "session": "H-20261108-build",
+    "tasks": {}
+  },
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "토지조서 판독",
+  "resume": {
+    "command": "",
+    "do_not_touch": [
+      "index.html",
+      "data_*.json",
+      "inline_data.js",
+      "netlify/"
+    ],
+    "env": "",
+    "inputs": [],
+    "notes": [
+      "이 역할의 실제 체크포인트·후보·SHA 는 아직 입력되지 않음(C:\\클로드\\보상개발지도 미연결). 이 상태에서는 개발을 진행하지 말고 사용자에게 실제 상태 입력(H-05)을 요청할 것"
+    ]
+  },
+  "reviewer": false,
+  "role": "B",
+  "schema": 1,
+  "tasks": [],
+  "updated_at": "2026-11-08T12:20:40.292315Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 1615,
+    "session": "H-20261108-build"
+  },
+  "workspace": ""
+}

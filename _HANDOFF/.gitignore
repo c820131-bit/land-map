@@ -1,0 +1,5 @@
+locks/*
+!locks/.gitkeep
+*.tmp.*
+*.corrupt.*
+__pycache__/

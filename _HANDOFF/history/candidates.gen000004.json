@@ -1,0 +1,53 @@
+{
+  "generation": 4,
+  "items": {
+    "H-TOOL-1": {
+      "base_candidate": null,
+      "created_at": "2026-11-08T12:20:40.042668Z",
+      "created_by": "H-20261108-build",
+      "deployed": false,
+      "frozen": true,
+      "independent_review": {
+        "status": "pending"
+      },
+      "inputs": [],
+      "note": "인계 도구 1차 고정본(시험 10/10 통과)",
+      "path": "_HANDOFF/handoff.py",
+      "role": "H",
+      "self_test": {
+        "at": "2026-11-08T12:20:40.095544Z",
+        "by": "H-20261108-build",
+        "note": "tests/test_handoff.py 10/10",
+        "status": "pass"
+      },
+      "sha256": "92f96559b97326d92f2854a6769a4c6d67cede9f831b20d5a56221e87d5cb365",
+      "user_approved": false
+    },
+    "H-TOOL-2": {
+      "base_candidate": "H-TOOL-1",
+      "created_at": "2026-11-08T12:21:25.709102Z",
+      "created_by": "H-20261108-build",
+      "deployed": false,
+      "frozen": true,
+      "independent_review": {
+        "status": "pending"
+      },
+      "inputs": [],
+      "note": "locks/ 자동 생성·.gitignore 추가 후 재고정 (시험 10/10)",
+      "path": "_HANDOFF/handoff.py",
+      "role": "H",
+      "self_test": {
+        "status": "none"
+      },
+      "sha256": "a531447a0cb391df0641cddba00fa0286db36f3657f114e76df9d16760fa7e16",
+      "user_approved": false
+    }
+  },
+  "schema": 1,
+  "updated_at": "2026-11-08T12:21:25.709116Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 1821,
+    "session": "H-20261108-build"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "dependencies": [],
+  "duties": "공통 인계 저장소·복원 도구·시험 (A~E 작업 침범 금지)",
+  "generation": 6,
+  "last_checkpoint": null,
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "인계 체계",
+  "resume": {
+    "command": "",
+    "do_not_touch": [],
+    "env": "",
+    "inputs": [],
+    "notes": []
+  },
+  "reviewer": false,
+  "role": "H",
+  "schema": 1,
+  "tasks": [
+    {
+      "command": "",
+      "created_at": "2026-11-08T12:20:30.811384Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "id": "H-01",
+      "priority": 1,
+      "requires_user_approval": false,
+      "status": "todo",
+      "title": "공통 인계 저장소·handoff.py 구축(임대·세대·원자교체·이력·후보·오류·결정·인계·체크포인트·보호)"
+    },
+    {
+      "command": "python _HANDOFF/tests/test_handoff.py",
+      "created_at": "2026-11-08T12:20:30.868276Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "id": "H-02",
+      "priority": 2,
+      "requires_user_approval": false,
+      "status": "todo",
+      "title": "독립 프로세스 시험 A~I 작성·통과"
+    },
+    {
+      "command": "python _HANDOFF/handoff.py protect verify",
+      "created_at": "2026-11-08T12:20:30.922769Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "id": "H-03",
+      "priority": 3,
+      "requires_user_approval": false,
+      "status": "todo",
+      "title": "운영 파일 보호 매니페스트 채취·검증(29개 파일)"
+    },
+    {
+      "command": "python _HANDOFF/handoff.py --session <새창ID> takeover H --json",
+      "created_at": "2026-11-08T12:20:30.977351Z",
+      "created_by": "H-20261108-build",
+      "depends_on": [],
+      "id": "H-04",
+      "priority": 4,
+      "requires_user_approval": false,
+      "status": "todo",
+      "title": "실제 사용자 새 Claude 창에서 'INVESTMENT MAP H 인계받고 이어서 작업해' 시험(브리핑 복원·중복방지 확인)"
+    }
+  ],
+  "updated_at": "2026-11-08T12:20:30.977359Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 1409,
+    "session": "H-20261108-build"
+  },
+  "workspace": "_HANDOFF"
+}

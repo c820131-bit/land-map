@@ -1,0 +1,28 @@
+{
+  "dependencies": [],
+  "duties": "공식 공고·첨부·출처·사업 구간·정정·취소·증분 수집",
+  "generation": 1,
+  "last_checkpoint": null,
+  "last_passed_candidate": null,
+  "last_report": "",
+  "latest_candidate": null,
+  "name": "공식 공고·출처 수집",
+  "resume": {
+    "command": "",
+    "do_not_touch": [],
+    "env": "",
+    "inputs": [],
+    "notes": []
+  },
+  "reviewer": false,
+  "role": "A",
+  "schema": 1,
+  "tasks": [],
+  "updated_at": "2026-11-08T12:13:37.438123Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 346,
+    "session": "smoke"
+  },
+  "workspace": ""
+}

@@ -1,0 +1,75 @@
+{
+  "generation": 7,
+  "items": {
+    "ERR-H-001": {
+      "actual": "두 번째 takeover 종료코드 0 (prev_state=dead)",
+      "affects": [],
+      "basis": "시험 E(동시 인계 종료코드 [0,0]) / 시험 F(활성 임대 재시도 기대 3, 실제 0)",
+      "cause": "Claude 창은 장기 프로세스가 아니므로 CLI PID 는 즉시 사라짐. pid_alive 를 무조건 적용한 설계 오류",
+      "expected": "활성 임대 중 두 번째 takeover 종료코드 3",
+      "fix_files": {
+        "_HANDOFF/handoff.py": "92f96559b97326d92f2854a6769a4c6d67cede9f831b20d5a56221e87d5cb365"
+      },
+      "found_at": "2026-11-08T12:20:39.817950Z",
+      "found_by": "H-20261108-build",
+      "id": "ERR-H-001",
+      "owner": "H",
+      "repro": "python _HANDOFF/tests/test_handoff.py (수정 전 handoff.py)",
+      "resume_condition": "",
+      "status": "verified",
+      "title": "임대 생존 판정에 CLI 호출 PID 사용 → 명령 종료 직후 'dead' 판정되어 타 세션이 임대 회수",
+      "unresolved_reason": "",
+      "updated_at": "2026-11-08T12:20:39.870678Z",
+      "verification": "lease_state 에서 tracked_pid(heartbeat --daemon 등록)만 생존 검사하도록 수정 후 시험 E·F 통과 (10/10)"
+    },
+    "ERR-H-002": {
+      "actual": "작업별 command 만 표시",
+      "affects": [],
+      "basis": "시험 A assert 'python c_dist_check.py --m 100 --resume' in out 실패",
+      "cause": "briefing() 에서 nt.command or resume.command 로 하나만 출력",
+      "expected": "브리핑에 역할 재개 명령 표시",
+      "fix_files": {
+        "_HANDOFF/handoff.py": "92f96559b97326d92f2854a6769a4c6d67cede9f831b20d5a56221e87d5cb365"
+      },
+      "found_at": "2026-11-08T12:20:39.933073Z",
+      "found_by": "H-20261108-build",
+      "id": "ERR-H-002",
+      "owner": "H",
+      "repro": "python _HANDOFF/tests/test_handoff.py",
+      "resume_condition": "",
+      "status": "verified",
+      "title": "브리핑이 체크포인트의 역할 재개 명령(--next-command)을 작업 명령에 가려 표시하지 않음",
+      "unresolved_reason": "",
+      "updated_at": "2026-11-08T12:20:39.991788Z",
+      "verification": "작업 명령과 역할 재개 명령을 별도 줄로 출력하도록 수정, 시험 A 통과"
+    },
+    "ERR-H-003": {
+      "actual": "os.mkdir(mutex) 가 상위 폴더 없음으로 실패 가능",
+      "affects": [],
+      "basis": "git 은 빈 디렉터리를 저장하지 않음",
+      "cause": "_acquire_mutex 가 lock_dir 존재를 가정",
+      "expected": "임대 획득·브리핑",
+      "fix_files": {
+        "_HANDOFF/handoff.py": "a531447a0cb391df0641cddba00fa0286db36f3657f114e76df9d16760fa7e16"
+      },
+      "found_at": "2026-11-08T12:21:25.821230Z",
+      "found_by": "H-20261108-build",
+      "id": "ERR-H-003",
+      "owner": "H",
+      "repro": "state/history 만 복사한 사본에서 handoff.py takeover H",
+      "resume_condition": "",
+      "status": "verified",
+      "title": "새 clone 에 빈 locks/ 폴더가 없어 첫 takeover 가 FileNotFoundError 가능",
+      "unresolved_reason": "",
+      "updated_at": "2026-11-08T12:21:25.877277Z",
+      "verification": "lock_dir/root 를 makedirs 로 보장. locks 없는 사본(clone_sim)에서 takeover --json 성공, 시험 10/10"
+    }
+  },
+  "schema": 1,
+  "updated_at": "2026-11-08T12:21:25.877289Z",
+  "updated_by": {
+    "host": "vm",
+    "pid": 1827,
+    "session": "H-20261108-build"
+  }
+}
